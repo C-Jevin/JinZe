@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinze.dao.MonomerBmpDao">
+	<resultMap type="com.jinze.entity.MonomerBmp" id="MonomerBmpMapper">
+		<id property="ID" column="id"/>
+		<result property="pgType" column="pgType"/>
+		<result property="type" column="type"/>
+		<result property="Land" column="Land"/>
+		<result property="BMP" column="BMP"/>
+		<result property="RorT" column="RorT"/>
+		<result property="AAFV" column="AAFV"/>
+		<result property="TSS_AA" column="TSS_AA"/>
+		<result property="TN_AAL" column="TN_AAL"/>
+		<result property="TP_AAL" column="TP_AAL"/>
+	</resultMap>
+	
+	<!--查询参数评估或效益评估-->
+	<select id="selectMonomerBmp" resultMap="MonomerBmpMapper" parameterType="java.util.Map">
+		select * from tb_monomerbmp 
+		<where>
+			<if test="pgType != null">
+				and	pgType = #{pgType}
+			</if>
+			<if test="type != null and type != ''">
+			 	and	type = #{type}
+			</if>
+			<if test="Land != null and Land != ''">
+				and	Land = #{Land}
+			</if>
+			<if test="BMP != null and BMP != ''">
+				and	BMP = #{BMP}
+			</if>
+		</where>
+	</select>
+	
+</mapper>
