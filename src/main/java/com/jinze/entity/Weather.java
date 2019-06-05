@@ -1,13 +1,19 @@
 package com.jinze.entity;
 
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
+
 /**
  * 
  * @author JackVan
  *
  */
+
 public class Weather implements Serializable{
 	private String ID;//序号
+	private String siteId;//站点ID
 	private String siteName;//站点名称
 	private String Dt;//时间
 	private Double RRR;//降雨
@@ -22,6 +28,15 @@ public class Weather implements Serializable{
 	public void setID(String iD) {
 		ID = iD;
 	}
+
+	public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
+	}
+
 	public String getSiteName() {
 		return siteName;
 	}
@@ -61,13 +76,22 @@ public class Weather implements Serializable{
 	public Double getPO() {
 		return PO;
 	}
-	public void setPO(Double pO) {
-		PO = pO;
+	public void setPO(Double PO) {
+		this.PO = PO;
 	}
-	//生成tostring方法
+
 	@Override
 	public String toString() {
-		return "Weather [ID=" + ID + ", siteName=" + siteName + ", Dt=" + Dt + ", RRR=" + RRR + ", T=" + T + ", DD="
-				+ DD + ", FF=" + FF + ", PO=" + PO + "]";
+		return "Weather{" +
+				"ID='" + ID + '\'' +
+				", siteId='" + siteId + '\'' +
+				", siteName='" + siteName + '\'' +
+				", Dt='" + Dt + '\'' +
+				", RRR=" + RRR +
+				", T=" + T +
+				", DD=" + DD +
+				", FF=" + FF +
+				", PO=" + PO +
+				'}';
 	}
 }

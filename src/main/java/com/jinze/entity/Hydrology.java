@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public class Hydrology implements Serializable{
 	private String ID;//序号
+	private String siteId;//站点ID
 	private String siteName;//站点名称
 	private String Dt;//时间
 	private double level;//水位
@@ -18,6 +19,15 @@ public class Hydrology implements Serializable{
 	public void setID(String iD) {
 		ID = iD;
 	}
+
+	public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
+	}
+
 	public String getSiteName() {
 		return siteName;
 	}
@@ -36,9 +46,15 @@ public class Hydrology implements Serializable{
 	public void setLevel(double level) {
 		this.level = level;
 	}
+
 	@Override
-	//生成tostring方法
 	public String toString() {
-		return "Hydrology [ID=" + ID + ", siteName=" + siteName + ", Dt=" + Dt + ", level=" + level + "]";
+		return "Hydrology{" +
+				"ID='" + ID + '\'' +
+				", siteId='" + siteId + '\'' +
+				", siteName='" + siteName + '\'' +
+				", Dt='" + Dt + '\'' +
+				", level=" + level +
+				'}';
 	}
 }

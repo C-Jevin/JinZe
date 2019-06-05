@@ -1,14 +1,18 @@
 package com.jinze.entity;
 
+
 import java.io.Serializable;
+
 /**
  * 水质断面
  * @author JackVan
  */
-public class DuanmianWq implements Serializable{
+public class DuanMianWq implements Serializable{
 	private String ID;//编号
+	private String siteId;//站点ID
 	private String siteName;//站点名称
-	private String Dt;//时间
+	//@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private String DT;//时间
 	private Double DO;//溶解氧
 	private Double COD;//化学需氧量
 	private Double NH3_N;//氨氮
@@ -17,6 +21,7 @@ public class DuanmianWq implements Serializable{
 	private Double NO3_N;//硝酸盐氮
 	private Double PO4;//磷酸盐
 	private Double SS;//悬浮物
+
 	//生成getter&setter方法
 	public String getID() {
 		return ID;
@@ -24,6 +29,14 @@ public class DuanmianWq implements Serializable{
 
 	public void setID(String iD) {
 		ID = iD;
+	}
+
+	public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
 	}
 
 	public String getSiteName() {
@@ -34,12 +47,12 @@ public class DuanmianWq implements Serializable{
 		this.siteName = siteName;
 	}
 
-	public String getDt() {
-		return Dt;
+	public String getDT() {
+		return DT;
 	}
 
-	public void setDt(String dt) {
-		Dt = dt;
+	public void setDT(String dt) {
+		DT = dt;
 	}
 
 	public Double getDO() {
@@ -105,11 +118,21 @@ public class DuanmianWq implements Serializable{
 	public void setSS(Double sS) {
 		SS = sS;
 	}
-	//生成tostring的方法
 	@Override
 	public String toString() {
-		return "DuanmianWq [ID=" + ID + ", siteName=" + siteName + ", Dt=" + Dt + ", DO=" + DO + ", COD=" + COD
-				+ ", NH3_N=" + NH3_N + ", TP=" + TP + ", TN=" + TN + ", NO3_N=" + NO3_N + ", PO4=" + PO4 + ", SS=" + SS
-				+ "]";
+		return "DuanMianWq{" +
+				"ID='" + ID + '\'' +
+				", siteId='" + siteId + '\'' +
+				", siteName='" + siteName + '\'' +
+				", DT='" + DT + '\'' +
+				", DO=" + DO +
+				", COD=" + COD +
+				", NH3_N=" + NH3_N +
+				", TP=" + TP +
+				", TN=" + TN +
+				", NO3_N=" + NO3_N +
+				", PO4=" + PO4 +
+				", SS=" + SS +
+				'}';
 	}
 }

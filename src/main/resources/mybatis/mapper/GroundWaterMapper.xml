@@ -3,6 +3,7 @@
 <mapper namespace="com.jinze.dao.GroundWaterDao">
 	<resultMap type="com.jinze.entity.GroundWater" id="GroundWaterMapper">
 		<id property="ID" column="id"/>
+		<result property="siteId" column="siteId"/>
 		<result property="siteName" column="siteName"/>
 		<result property="type" column="type"/>
 		<result property="DXSMS" column="DXSMS"/>
@@ -12,5 +13,69 @@
 	<select id="selectGroundWaterBySiteName" resultMap="GroundWaterMapper" parameterType="string">
 		select * from tb_groundWater where siteName = #{siteName}
 	</select>
-	
+	<!--根据条件查询表记录总数-->
+	<select id="selectCount" resultType="long" parameterType="map">
+		select count(*) from tb_groundwater
+	</select>
+	<!--新增表记录-->
+	<insert id="insert" parameterType="com.jinze.entity.GroundWater">
+		insert into tb_groundwater
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="siteName != null">
+				siteName,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="DXSMS != null">
+				DXSMS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="siteName != null">
+				#{siteName},
+			</if>
+			<if test="type != null">
+				#{type},
+			</if>
+			<if test="DXSMS != null">
+				#{DXSMS},
+			</if>
+		</trim>
+	</insert>
+	<!--删除表记录-->
+	<delete id="deleteById" parameterType="string">
+		delete from tb_groundwater where ID = #{id}
+	</delete>
+	<!--批量删除 -->
+	<delete id="deleteByList" parameterType="java.util.List">
+		delete from tb_groundwater where ID in
+		<foreach  item="item" collection="java.util.List" index="index"  open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<!--更新表记录-->
+	<update id="update" parameterType="com.jinze.entity.GroundWater">
+		update tb_groundwater
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sitename != null">
+				siteName = #{record.sitename,jdbcType=VARCHAR},
+			</if>
+			<if test="record.type != null">
+				type = #{record.type,jdbcType=VARCHAR},
+			</if>
+			<if test="record.dxsms != null">
+				DXSMS = #{record.dxsms},
+			</if>
+		</set>
+	</update>
 </mapper>

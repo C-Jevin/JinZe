@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jinze.dao.DuanmianWqDao">
-	<resultMap type="com.jinze.entity.DuanmianWq" id="DuanmianWqMapper">
-		<id property="ID" column="id"/>
+	<resultMap type="com.jinze.entity.DuanMianWq" id="DuanmianWqMapper">
+		<id property="ID" column="ID"/>
+		<result property="siteId" column="siteId"/>
 		<result property="siteName" column="siteName"/>
-		<result property="Dt" column="Dt"/>
+		<result property="DT" column="Dt"/>
 		<result property="DO" column="DO"/>
 		<result property="COD" column="COD"/>
 		<result property="NH3_N" column="NH3_N"/>
@@ -19,4 +20,186 @@
 	<select id="selectDuanmianWqBySiteName" resultMap="DuanmianWqMapper" parameterType="string">
 		select * from tb_duanmianWQ where siteName = #{siteName}
 	</select>
+	<!--根据条件查找日均、月均或年均数据-->
+	<select id="selectAverageByMap" parameterType="map" resultMap="DuanmianWqMapper">
+		select *from tb_duanmianwq
+		<where>
+			<if test="siteId != null">
+				and siteId=#{siteId,jdbcType=VARCHAR}
+			</if>
+			<if test="searchDate == 'Y' and searchDate != null and DT !=null and DT!=''">
+				and date_format(Dt,'%Y') =#{DT}
+			</if>
+			<if test="searchDate == 'M' and searchDate != null  and DT !=null and DT!=''">
+				and date_format(Dt,'%Y-%m') =#{DT}
+			</if>
+			<if test="searchDate == 'D' and searchDate != null  and DT !=null and DT!=''">
+				and date_format(Dt,'%Y-%m-%d') =#{DT}
+			</if>
+		</where>
+	</select>
+
+	<!--根据条件查找日均、月均或年均数据-->
+	<select id="selectAverageByDate" parameterType="map" resultMap="DuanmianWqMapper">
+		select *from tb_duanmianwq
+		<where>
+			<if test="siteId != null">
+				and siteId=#{siteId,jdbcType=VARCHAR}
+			</if>
+			<if test="searchDate == 'Year' and searchDate != null and list.size()>0 ">
+				and date_format(Dt,'%Y') in
+				<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="searchDate == 'Mon' and searchDate != null  and list.size()>0 ">
+				and date_format(Dt,'%Y-%m') in
+				<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="searchDate == 'Day' and searchDate != null  and list.size()>0 ">
+				and date_format(Dt,'%Y-%m-%d') in
+				<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据条件查询表记录总数-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(*) from tb_duanmianwq
+	</select>
+	<!-- 新增数据  -->
+	<insert id="insert" parameterType="com.jinze.entity.DuanMianWq">
+		insert into tb_duanmianwq
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				ID,
+			</if>
+			<if test="siteName != null">
+				siteName,
+			</if>
+			<if test="DT != null">
+				Dt,
+			</if>
+			<if test="DO != null">
+				DO,
+			</if>
+			<if test="COD != null">
+				COD,
+			</if>
+			<if test="NH3_N != null">
+				NH3_N,
+			</if>
+			<if test="TP != null">
+				TP,
+			</if>
+			<if test="TN != null">
+				TN,
+			</if>
+			<if test="NO3_N != null">
+				NO3_N,
+			</if>
+			<if test="PO4 != null">
+				PO4,
+			</if>
+			<if test="SS != null">
+				SS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ID != null">
+				#{ID,jdbcType=VARCHAR},
+			</if>
+			<if test="siteName != null">
+				#{siteName,jdbcType=VARCHAR},
+			</if>
+			<if test="DT != null">
+				#{DT,jdbcType=TIMESTAMP},
+			</if>
+			<if test="DO != null">
+				#{DO,jdbcType=DECIMAL},
+			</if>
+			<if test="COD != null">
+				#{COD,jdbcType=DECIMAL},
+			</if>
+			<if test="NH3_N != null">
+				#{NH3_N,jdbcType=DECIMAL},
+			</if>
+			<if test="TP != null">
+				#{TP,jdbcType=DECIMAL},
+			</if>
+			<if test="TN != null">
+				#{TN,jdbcType=DECIMAL},
+			</if>
+			<if test="NO3_N != null">
+				#{NO3_N,jdbcType=DECIMAL},
+			</if>
+			<if test="PO4 != null">
+				#{PO4,jdbcType=DECIMAL},
+			</if>
+			<if test="SS != null">
+				#{SS,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<!-- 删除数据  -->
+	<delete id="deleteById" parameterType="string">
+		delete from tb_duanmianwq where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<!--批量删除 -->
+	<delete id="deleteByList" parameterType="list">
+		delete from tb_duanmianwq where ID in
+		<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<!-- 更新数据-->
+	<update id="update" parameterType="com.jinze.entity.DuanMianWq">
+		update tb_duanmianwq
+		<set>
+			<!--<if test="record.id != null">
+				ID = #{record.id,jdbcType=VARCHAR},
+			</if>-->
+			<if test="siteName != null">
+				siteName = #{siteName,jdbcType=VARCHAR},
+			</if>
+			<if test="DT != null">
+				Dt = #{DT,jdbcType=TIMESTAMP},
+			</if>
+			<if test="DO != null">
+				DO = #{DO,jdbcType=DECIMAL},
+			</if>
+			<if test="COD != null">
+				COD = #{COD,jdbcType=DECIMAL},
+			</if>
+			<if test="NH3_N != null">
+				NH3_N = #{NH3_N,jdbcType=DECIMAL},
+			</if>
+			<if test="TP != null">
+				TP = #{TP,jdbcType=DECIMAL},
+			</if>
+			<if test="TN != null">
+				TN = #{TN,jdbcType=DECIMAL},
+			</if>
+			<if test="NO3_N != null">
+				NO3_N = #{NO3_N,jdbcType=DECIMAL},
+			</if>
+			<if test="PO4 != null">
+				PO4 = #{PO4,jdbcType=DECIMAL},
+			</if>
+			<if test="SS != null">
+				SS = #{SS,jdbcType=DECIMAL},
+			</if>
+		</set>
+		<where>
+			<if test="ID !=null">
+				ID = #{ID}
+			</if>
+		</where>
+	</update>
+
+
 </mapper>

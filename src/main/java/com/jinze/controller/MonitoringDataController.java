@@ -6,29 +6,24 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.jinze.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jinze.entity.DuanmianWq;
+import com.jinze.entity.DuanMianWq;
 import com.jinze.entity.GroundWater;
 import com.jinze.entity.Hydrology;
 import com.jinze.entity.Rain;
 import com.jinze.entity.Weather;
 import com.jinze.entity.YanJiuQuWQ;
-import com.jinze.service.DuanmianWqService;
-import com.jinze.service.GroundWaterService;
-import com.jinze.service.HydrologyService;
-import com.jinze.service.RainService;
-import com.jinze.service.WeatherService;
-import com.jinze.service.YanJiuQuWQService;
 import com.jinze.util.JsonUtil;
 
 
 @RestController
-@RequestMapping("monitoring")
+@RequestMapping("api")
 public class MonitoringDataController {
 	@Autowired
 	private DuanmianWqService duanmianWqService;
@@ -72,7 +67,7 @@ public class MonitoringDataController {
 				List<Hydrology> list = hydrologyService.selectHydrologyBySiteName(sName);
 				out.print(JsonUtil.toJson(list));
 			}else if(tName.equals("tb_duanmianWQ")) {
-				List<DuanmianWq> list = duanmianWqService.selectDuanmianWqBySiteName(sName);
+				List<DuanMianWq> list = duanmianWqService.selectDuanmianWqBySiteName(sName);
 				out.print(JsonUtil.toJson(list));
 			}else if(tName.equals("tb_yanjiuquWQ")) {
 				List<YanJiuQuWQ> list = yanJiuQuWQService.selectYanJiuQuWQBySiteName(sName);

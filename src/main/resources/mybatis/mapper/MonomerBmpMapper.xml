@@ -32,5 +32,124 @@
 			</if>
 		</where>
 	</select>
+    <!--查询表记录总数-->
+    <select id="selectCount" parameterType="map" resultType="long">
+		select count(*) from tb_monomerbmp
+	</select>
+    <!--新增表记录-->
+    <insert id="insert" parameterType="com.jinze.entity.MonomerBmp">
+        insert into tb_monomerbmp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="pgType != null">
+                pgType,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="Land != null">
+                Land,
+            </if>
+            <if test="BMP != null">
+                BMP,
+            </if>
+            <if test="RorT != null">
+                RorT,
+            </if>
+            <if test="AAFV != null">
+                AAFV,
+            </if>
+            <if test="TSS_AA != null">
+                TSS_AA,
+            </if>
+            <if test="TN_AAL != null">
+                TN_AAL,
+            </if>
+            <if test="TP_AAL != null">
+                TP_AAL,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="pgType != null">
+                #{pgType},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="Land != null">
+                #{Land},
+            </if>
+            <if test="BMP != null">
+                #{BMP},
+            </if>
+            <if test="RorT != null">
+                #{RorT},
+            </if>
+            <if test="AAFV != null">
+                #{AAFV},
+            </if>
+            <if test="TSS_AA != null">
+                #{TSS_AA},
+            </if>
+            <if test="TN_AAL != null">
+                #{TN_AAL},
+            </if>
+            <if test="TP_AAL != null">
+                #{TP_AAL},
+            </if>
+        </trim>
+    </insert>
+    <!--删除表记录-->
+    <delete id="deleteById" parameterType="string">
+		delete from tb_monomerbmp where ID = #{id}
+	</delete>
+    <!--批量删除 -->
+    <delete id="deleteByList" parameterType="java.util.List">
+        delete from tb_monomerbmp where ID in
+        <foreach  item="item" collection="java.util.List" index="index"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <!--更新表记录-->
+    <update id="update" parameterType="com.jinze.entity.MonomerBmp">
+        update tb_monomerbmp
+        <set>
+            <if test="record.id != null">
+                ID = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.pgType != null">
+                pgType = #{record.pgType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null">
+                type = #{record.type},
+            </if>
+            <if test="record.Land != null">
+                Land = #{record.Land},
+            </if>
+            <if test="record.BMP != null">
+                BMP = #{record.BMP},
+            </if>
+            <if test="record.RorT != null">
+                RorT = #{record.RorT},
+            </if>
+            <if test="record.AAFV != null">
+                AAFV = #{record.AAFV},
+            </if>
+            <if test="record.TSS_AA != null">
+                TSS_AA = #{record.TSS_AA},
+            </if>
+            <if test="record.TN_AAL != null">
+                TN_AAL = #{record.TN_AAL},
+            </if>
+            <if test="record.TP_AAL != null">
+                TP_AAL = #{record.TP_AAL},
+            </if>
+        </set>
+    </update>
 	
 </mapper>

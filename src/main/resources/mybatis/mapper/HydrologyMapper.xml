@@ -3,6 +3,7 @@
 <mapper namespace="com.jinze.dao.HydrologyDao">
 	<resultMap type="com.jinze.entity.Hydrology" id="HydrologyMapper">
 		<id property="ID" column="id"/>
+		<result property="siteId" column="siteId"/>
 		<result property="siteName" column="siteName"/>
 		<result property="Dt" column="Dt"/>
 		<result property="level" column="level"/>
@@ -12,5 +13,117 @@
 	<select id="selectHydrologyBySiteName" resultMap="HydrologyMapper" parameterType="string">
 		select * from tb_hydrology where siteName = #{siteName}
 	</select>
-	
+	<!--查询表记录总数-->
+	<select id="selectCount" parameterType="map" resultType="long">
+		select count(*) from tb_hydrology
+	</select>
+	<!--根据条件查找日均、月均或年均数据-->
+	<select id="selectAverageByMap" parameterType="map" resultMap="HydrologyMapper">
+		select *from tb_hydrology
+		<where>
+			<if test="siteId != null">
+				and siteId=#{siteId,jdbcType=VARCHAR}
+			</if>
+			<if test="searchDate == 'Year' and searchDate != null and DT !=null and DT !=''">
+				and date_format(Dt,'%Y') = #{DT}
+			</if>
+			<if test="searchDate == 'Month' and searchDate != null  and DT !=null and DT !=''">
+				and date_format(Dt,'%Y-%m') = #{DT}
+			</if>
+			<if test="searchDate == 'Day' and searchDate != null  and DT !=null and DT !=''">
+				and date_format(Dt,'%Y-%m-%d') = #{DT}
+			</if>
+		</where>
+	</select>
+
+	<!--根据条件查找日均、月均或年均数据-->
+	<select id="selectAverageByDate" parameterType="map" resultMap="HydrologyMapper">
+		select *from tb_hydrology
+		<where>
+			<if test="siteId != null">
+				and siteId=#{siteId,jdbcType=VARCHAR}
+			</if>
+			<if test="searchDate == 'Year' and searchDate != null and list.size()>0 ">
+				and date_format(Dt,'%Y') in
+				<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="searchDate == 'Mon' and searchDate != null  and list.size()>0 ">
+				and date_format(Dt,'%Y-%m') in
+				<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="searchDate == 'Day' and searchDate != null  and list.size()>0 ">
+				and date_format(Dt,'%Y-%m-%d') in
+				<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<!--新增表记录-->
+	<insert id="insert" parameterType="com.jinze.entity.Hydrology">
+		insert into tb_hydrology
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="siteName != null">
+				siteName,
+			</if>
+			<if test="Dt != null">
+				Dt,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="siteName != null">
+				#{siteName},
+			</if>
+			<if test="Dt != null">
+				#{Dt},
+			</if>
+			<if test="level != null">
+				#{level},
+			</if>
+		</trim>
+	</insert>
+	<!--删除表记录-->
+	<delete id="deleteById" parameterType="string">
+		delete from tb_hydrology where ID = #{id}
+	</delete>
+	<!--批量删除 -->
+	<delete id="deleteByList" parameterType="java.util.List">
+		delete from tb_hydrology where ID in
+		<foreach  item="item" collection="java.util.List" index="index"  open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<!--更新表记录-->
+	<update id="update" parameterType="com.jinze.entity.Hydrology">
+		update tb_hydrology
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sitename != null">
+				siteName = #{record.sitename,jdbcType=VARCHAR},
+			</if>
+			<if test="record.dt != null">
+				Dt = #{record.dt},
+			</if>
+			<if test="record.level != null">
+				level = #{record.level},
+			</if>
+		</set>
+	</update>
+
 </mapper>

@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public class Rain implements Serializable{
 	private String ID;//序号
+	private String siteId;//站点ID
 	private String siteName;//站点名称
 	private String Dt;//时间
 	private Double RainFall;//降雨
@@ -18,6 +19,14 @@ public class Rain implements Serializable{
 
 	public void setID(String iD) {
 		ID = iD;
+	}
+
+	public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
 	}
 
 	public String getSiteName() {
@@ -43,9 +52,15 @@ public class Rain implements Serializable{
 	public void setRainFall(Double rainFall) {
 		RainFall = rainFall;
 	}
-	//生成tostring方法
+
 	@Override
 	public String toString() {
-		return "Rain [ID=" + ID + ", siteName=" + siteName + ", Dt=" + Dt + ", RainFall=" + RainFall + "]";
+		return "Rain{" +
+				"ID='" + ID + '\'' +
+				", siteId='" + siteId + '\'' +
+				", siteName='" + siteName + '\'' +
+				", Dt='" + Dt + '\'' +
+				", RainFall=" + RainFall +
+				'}';
 	}
 }

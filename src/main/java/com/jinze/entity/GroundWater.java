@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public class GroundWater implements Serializable{
 	private String ID;//序号
+	private String siteId;//站点ID
 	private String siteName;//站点名称
 	private Integer type;//1、平水年；2、丰水年；3、枯水年
 	private Double DXSMS;//地下水埋深
@@ -18,6 +19,15 @@ public class GroundWater implements Serializable{
 	public void setID(String iD) {
 		ID = iD;
 	}
+
+	public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
+	}
+
 	public String getSiteName() {
 		return siteName;
 	}
@@ -36,9 +46,15 @@ public class GroundWater implements Serializable{
 	public void setDXSMS(Double dXSMS) {
 		DXSMS = dXSMS;
 	}
-	//生成tostring的方法
+
 	@Override
 	public String toString() {
-		return "GroundWater [ID=" + ID + ", siteName=" + siteName + ", type=" + type + ", DXSMS=" + DXSMS + "]";
+		return "GroundWater{" +
+				"ID='" + ID + '\'' +
+				", siteId='" + siteId + '\'' +
+				", siteName='" + siteName + '\'' +
+				", type=" + type +
+				", DXSMS=" + DXSMS +
+				'}';
 	}
 }

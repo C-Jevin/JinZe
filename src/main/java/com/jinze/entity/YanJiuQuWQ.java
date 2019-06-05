@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class YanJiuQuWQ implements Serializable{
 	private String ID;//序号
+	private String siteId;//站点ID
 	private String siteName;//站点名称
 	private String Dt;//时间
 	private Double NH3_N;//氨氮
@@ -18,6 +19,15 @@ public class YanJiuQuWQ implements Serializable{
 	public void setID(String iD) {
 		ID = iD;
 	}
+
+	public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
+	}
+
 	public String getSiteName() {
 		return siteName;
 	}
@@ -66,9 +76,20 @@ public class YanJiuQuWQ implements Serializable{
 	public void setTP(Double tP) {
 		TP = tP;
 	}
+
 	@Override
 	public String toString() {
-		return "YanJiuQuWQ [ID=" + ID + ", siteName=" + siteName + ", Dt=" + Dt + ", NH3_N=" + NH3_N + ", CODmn="
-				+ CODmn + ", COD=" + COD + ", DO=" + DO + ", BOD5=" + BOD5 + ", TP=" + TP + "]";
+		return "YanJiuQuWQ{" +
+				"ID='" + ID + '\'' +
+				", siteId='" + siteId + '\'' +
+				", siteName='" + siteName + '\'' +
+				", Dt='" + Dt + '\'' +
+				", NH3_N=" + NH3_N +
+				", CODmn=" + CODmn +
+				", COD=" + COD +
+				", DO=" + DO +
+				", BOD5=" + BOD5 +
+				", TP=" + TP +
+				'}';
 	}
 }

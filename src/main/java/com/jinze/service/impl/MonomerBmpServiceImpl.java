@@ -25,4 +25,24 @@ public class MonomerBmpServiceImpl implements MonomerBmpService {
 		return mBmpDao.selectMonomerBmp(map);
 	}
 
+	public Long selectCount(Map<String, Object> map) {
+		return mBmpDao.selectCount(map);
+	}
+
+	public void update(MonomerBmp monomerBmp) {
+		mBmpDao.update(monomerBmp);
+	}
+
+	public void deleteById(String id) {
+		mBmpDao.deleteById(id);
+	}
+
+	public void deleteByList(List<String> list) {
+		mBmpDao.deleteByList(list);
+	}
+
+	public void insert(MonomerBmp monomerBmp) {
+		mBmpDao.insert(monomerBmp);
+	}
+
 }
