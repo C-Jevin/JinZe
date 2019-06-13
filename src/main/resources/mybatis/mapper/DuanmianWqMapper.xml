@@ -78,6 +78,9 @@
 			<if test="ID != null">
 				ID,
 			</if>
+			<if test="siteId != null">
+				siteId,
+			</if>
 			<if test="siteName != null">
 				siteName,
 			</if>
@@ -112,6 +115,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="ID != null">
 				#{ID,jdbcType=VARCHAR},
+			</if>
+			<if test="siteId != null">
+				#{siteId,jdbcType=VARCHAR},
 			</if>
 			<if test="siteName != null">
 				#{siteName,jdbcType=VARCHAR},
@@ -163,6 +169,9 @@
 			<!--<if test="record.id != null">
 				ID = #{record.id,jdbcType=VARCHAR},
 			</if>-->
+			<if test="siteId != null">
+				siteId = #{siteId,jdbcType=VARCHAR},
+			</if>
 			<if test="siteName != null">
 				siteName = #{siteName,jdbcType=VARCHAR},
 			</if>

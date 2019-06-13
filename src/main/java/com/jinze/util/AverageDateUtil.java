@@ -1,6 +1,7 @@
 package com.jinze.util;
 
 
+import com.jinze.entity.SearchCond;
 import com.sun.media.jfxmedia.logging.Logger;
 import org.apache.poi.hssf.record.formula.functions.T;
 import sun.rmi.runtime.Log;
@@ -52,10 +53,10 @@ public class AverageDateUtil {
         return false;
     }
 
-    public static List<String> splitDate(Map<String,Object> param){
-        String startTime = (String) param.get("startTime");
-        String endTime = (String) param.get("endTime");
-        String cond = (String) param.get("condition");
+    public static List<String> splitDate(SearchCond searchCond){
+        String startTime = searchCond.getStartTime();
+        String endTime = searchCond.getEndTime();
+        String cond = searchCond.getCondition();
         List<String> list = new ArrayList<>();
         //拆分成数组
         String[] dateBegs = startTime.split("-");
@@ -115,6 +116,7 @@ public class AverageDateUtil {
                 }
 
         }catch (Exception e){
+            e.printStackTrace();
             System.err.println(e.getMessage());
         }
         return  list;

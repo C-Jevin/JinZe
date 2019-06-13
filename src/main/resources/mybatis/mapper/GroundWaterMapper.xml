@@ -24,6 +24,9 @@
 			<if test="id != null">
 				ID,
 			</if>
+			<if test="siteId != null">
+				siteId,
+			</if>
 			<if test="siteName != null">
 				siteName,
 			</if>
@@ -37,6 +40,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id},
+			</if>
+			<if test="siteId != null">
+				#{siteId},
 			</if>
 			<if test="siteName != null">
 				#{siteName},
@@ -64,17 +70,20 @@
 	<update id="update" parameterType="com.jinze.entity.GroundWater">
 		update tb_groundwater
 		<set>
-			<if test="record.id != null">
+			<!--<if test="record.id != null">
 				ID = #{record.id,jdbcType=VARCHAR},
+			</if>-->
+			<if test="siteId != null">
+				siteId = #{siteId,jdbcType=VARCHAR},
 			</if>
-			<if test="record.sitename != null">
-				siteName = #{record.sitename,jdbcType=VARCHAR},
+			<if test="siteName != null">
+				siteName = #{siteName,jdbcType=VARCHAR},
 			</if>
-			<if test="record.type != null">
-				type = #{record.type,jdbcType=VARCHAR},
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
 			</if>
-			<if test="record.dxsms != null">
-				DXSMS = #{record.dxsms},
+			<if test="DXSMS != null">
+				DXSMS = #{DXSMS},
 			</if>
 		</set>
 	</update>

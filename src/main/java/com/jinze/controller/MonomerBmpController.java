@@ -1,26 +1,25 @@
 package com.jinze.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.jinze.core.Result;
+import com.jinze.core.ResultGenerator;
+import com.jinze.entity.Hydrology;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jinze.entity.MonomerBmp;
 import com.jinze.service.MonomerBmpService;
-import com.jinze.util.JsonUtil;
 
+@Api(value = "单体BMP效益评估", description = "单体BMP效益评估 API", position = 100, protocols = "http")
 @RestController
-@RequestMapping("monomerBmp")
+@RequestMapping("/JinZeApi/monomerBmp")
 public class MonomerBmpController {
 
 	@Autowired
@@ -32,14 +31,19 @@ public class MonomerBmpController {
 	 * @param land
 	 * @param bmp
 	 */
-	@RequestMapping(value = "/showDataOfMonomerBmp",method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-	public void showDataOfMonomerBmp(Integer pgType,String type,String land,String bmp, HttpServletResponse response){
+	@ApiOperation(
+			value = "查询效益评估或参数评估",
+			notes = "根据条件查询效益评估或参数评估",
+			produces="application/json",
+			consumes="application/json")
+	@GetMapping(value = "/showDataOfMonomerBmp")
+	public Result showDataOfMonomerBmp(Integer pgType, String type, String land, String bmp, HttpServletResponse response){
 		try {
 			System.err.println("=========================="+pgType+" "+type+" "+land+" "+bmp+"=================================");
 			// 设置ajax json字符串编码格式
-			response.setContentType("application/json;charset=utf-8");
+			//response.setContentType("application/json;charset=utf-8");
 			// out对象
-			PrintWriter out = response.getWriter();
+			//PrintWriter out = response.getWriter();
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("pgType", pgType);
 			map.put("type", type);
@@ -58,10 +62,104 @@ public class MonomerBmpController {
 				resMap.put("TP_AAL", (int)(monomerBmp.getTP_AAL()*100));
 				result.add(resMap);
 			}
-			out.print(JsonUtil.toJson(result));
-		}catch (IOException e) {
+			//out.print(JsonUtil.toJson(result));
+			return ResultGenerator.genSuccessResult(result);
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		return  null;
 	}
+
+	/**
+	 * 查询表记录总数
+	 * @param response
+	 */
+	@ApiOperation(
+			value = "查询表记录总数",
+			notes = "根据条件查询表记录总数",
+			produces="application/json",
+			consumes="application/json")
+	@GetMapping(value = "/findCount")
+	public Result findCount(HttpServletResponse response){
+		try {
+			Map<String,Object> map = new HashMap<>();
+			Map<String,Object> res = new HashMap<>();
+			res.put("Count",monomerBmpService.selectCount(map));
+			return ResultGenerator.genSuccessResult(res);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 根据ID更新记录
+	 * @param monomerBmp
+	 */
+	@ApiOperation(
+			value = "更新表记录",
+			notes = "根据条件更新表记录",
+			produces="application/json",
+			consumes="application/json")
+	@PutMapping(value = "/update")
+	public Result update(@RequestBody @ApiParam(name = "更新参数" ,value="传入json格式",required = true) MonomerBmp monomerBmp){
+		monomerBmpService.update(monomerBmp);
+		System.err.println("更新完成->");
+		return  ResultGenerator.genSuccessResult();
+	}
+
+	/**
+	 * 新增一条记录
+	 * @param monomerBmp
+	 */
+	@ApiOperation(
+			value = "新增一条表记录",
+			notes = "添加一条表记录",
+			produces="application/json",
+			consumes="application/json")
+	@PostMapping(value = "/insert")
+	public Result insert(@RequestBody @ApiParam(name = "新增参数" ,value="传入json格式",required = true)MonomerBmp monomerBmp){
+		System.err.println(monomerBmp.toString());
+		monomerBmpService.insert(monomerBmp);
+		System.err.println("插入完成->");
+		return  ResultGenerator.genSuccessResult();
+	}
+
+	/**
+	 * 根据ID删除记录
+	 * @param id
+	 */
+	@ApiOperation(
+			value = "删除一条表记录",
+			notes = "根据id删除",
+			produces="application/json",
+			consumes="application/json")
+	@DeleteMapping(value = "/{id}")
+	public Result deleteById(@PathVariable String id){
+		System.err.println("id: "+id);
+		monomerBmpService.deleteById(id);
+		System.err.println("成功删除ID："+id+"的数据");
+		return  ResultGenerator.genSuccessResult();
+	}
+
+	/**
+	 * 批量删除
+	 * @param list
+	 */
+	@ApiOperation(
+			value = "批量删除表记录",
+			notes = "根据ids删除",
+			produces="application/json",
+			consumes="application/json")
+	@DeleteMapping(value = "deleteByList")
+	public Result deleteByList(@RequestBody List<String> list){
+
+		System.err.println(list);
+		for (String str:list) {
+			System.err.println(str);
+		}
+		monomerBmpService.deleteByList(list);
+		return  ResultGenerator.genSuccessResult();
+	}
+
 }

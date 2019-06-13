@@ -1,28 +1,26 @@
 package com.jinze.controller;
 
+import com.jinze.core.Result;
+import com.jinze.core.ResultGenerator;
 import com.jinze.entity.DuanMianWq;
 import com.jinze.service.*;
-import com.jinze.util.AverageDateUtil;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.jinze.util.JsonUtil;
 
 /**
  * 数据库基本操作
  */
+@Api(value = "水质-断面", description = "水质-断面基础数据操作 API", position = 100, protocols = "http")
 @RestController
-@RequestMapping("duanmian")
+@RequestMapping("/JinZeApi/duanMian")
 public class DuanmianWqController {
     @Autowired
     private DuanmianWqService duanmianWqService;
@@ -31,43 +29,54 @@ public class DuanmianWqController {
      * 查询表记录总数
      * @param response
      */
-    @RequestMapping(value = "/findCount",method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-    public void findCount(HttpServletResponse response){
+    @ApiOperation(
+            value = "查询表记录总数",
+            notes = "根据条件查询表记录总数",
+            produces="application/json",
+            consumes="application/json")
+    @GetMapping(value = "/findCount")
+    public Result findCount(HttpServletResponse response){
         try {
             Map<String,Object> map = new HashMap<>();
             Long count = duanmianWqService.selectCount(map);
             System.err.println("========="+count+"========");
-            PrintWriter out = response.getWriter();
             Map<String,Object> res = new HashMap<>();
             res.put("Count",count);
-            out.print(JsonUtil.toJson(res));
-        }catch (IOException e){
+            return ResultGenerator.genSuccessResult(res);
+        }catch (Exception e){
             e.printStackTrace();
         }
-
+        return null;
     }
 
     /**
      * 根据ID更新duanmian记录
      * @param duanMianWq
-     * @param response
      */
-    @RequestMapping(value = "/update",method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
-    public void update(DuanMianWq duanMianWq, HttpServletResponse response){
+    @ApiOperation(
+            value = "更新表记录",
+            notes = "根据条件更新表记录",
+            produces="application/json",
+            consumes="application/json")
+    @PutMapping(value = "/update")
+    public Result update(@RequestBody @ApiParam(name = "更新参数" ,value="传入json格式",required = true) DuanMianWq duanMianWq){
         System.err.println(duanMianWq.toString());
         duanmianWqService.update(duanMianWq);
         System.err.println("更新完成->");
+        return ResultGenerator.genSuccessResult();
     }
 
     /**
      * 新增一条记录
-     * @param jsonStr
-     * @param response
+     * @param duanMianWq
      */
-    @RequestMapping(value = {"/insert"},method = RequestMethod.POST)
-    public void insert(@RequestBody String jsonStr, HttpServletResponse response){
-        JSONObject jsonObject = JSONObject.fromObject(jsonStr);
-        DuanMianWq duanMianWq = (DuanMianWq) JSONObject.toBean(jsonObject,DuanMianWq.class);//将前台传来的json字符串转换为json对象
+    @ApiOperation(
+            value = "新增一条表记录",
+            notes = "添加一条表记录",
+            produces="application/json",
+            consumes="application/json")
+    @PostMapping(value = "/insert")
+    public Result insert(@RequestBody @ApiParam(name = "新增参数" ,value="传入json格式",required = true) DuanMianWq duanMianWq){
         if ("".equals(duanMianWq.getDT())||duanMianWq.getDT()==null){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             duanMianWq.setDT(sdf.format(new Date()));
@@ -75,36 +84,46 @@ public class DuanmianWqController {
         System.err.println(duanMianWq.toString());
         duanmianWqService.insert(duanMianWq);
         System.err.println("插入完成->");
+        return ResultGenerator.genSuccessResult();
     }
 
     /**
      * 根据ID删除记录
      * @param id
      */
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public void deleteById(@PathVariable String id){
+    @ApiOperation(
+            value = "删除一条表记录",
+            notes = "根据id删除",
+            produces="application/json",
+            consumes="application/json")
+    @DeleteMapping(value = "/{id}")
+    public Result deleteById(@PathVariable String id){
         System.err.println("id: "+id);
         duanmianWqService.deleteById(id);
         System.err.println("成功删除ID："+id+"的数据");
+        return ResultGenerator.genSuccessResult();
     }
 
     /**
      * 批量删除
      * @param list
      */
-    @RequestMapping(value = "deleteByList" ,method = RequestMethod.DELETE)
-    public void deleteByList(@RequestBody List<String> list){
-
+    @ApiOperation(
+            value = "批量删除表记录",
+            notes = "根据ids删除",
+            produces="application/json",
+            consumes="application/json")
+    @DeleteMapping(value = "deleteByList")
+    public Result deleteByList(@RequestBody List<String> list){
         System.err.println(list);
-        //JSONArray jsonArray = JSONArray.fromObject(list);
-        //ArrayList<String> ls = (A) jsonArray.toArray();
         for (String str:list) {
             System.err.println(str);
         }
         duanmianWqService.deleteByList(list);
+        return ResultGenerator.genSuccessResult();
     }
 
-    @RequestMapping(value = "averData-one" ,method = RequestMethod.GET)
+    /*@RequestMapping(value = "averData-one" ,method = RequestMethod.GET)
     public void searchDuanMianAverage(@RequestParam(value = "siteId",required = true,defaultValue = "SZDMP0001") String siteId,
                                       @RequestParam(value = "Dt",required = true,defaultValue = "")String Dt,
                                       @RequestParam(value = "condition",required = true,defaultValue = "Year")String condition,
@@ -141,7 +160,7 @@ public class DuanmianWqController {
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
 
 }

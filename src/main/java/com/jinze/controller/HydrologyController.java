@@ -1,24 +1,25 @@
 package com.jinze.controller;
 
-import com.jinze.entity.DuanMianWq;
+import com.jinze.core.Result;
+import com.jinze.core.ResultGenerator;
 import com.jinze.entity.Hydrology;
 import com.jinze.service.HydrologyService;
-import com.jinze.util.JsonUtil;
-import net.sf.json.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(value = "水文", description = "水文数据基础操作 API", position = 100, protocols = "http")
 @RestController
-@RequestMapping("hydrology")
+@RequestMapping("/JinZeApi/hydrology")
 public class HydrologyController {
     @Autowired
     private HydrologyService hydrologyService;
@@ -27,43 +28,56 @@ public class HydrologyController {
      * 查询表记录总数
      * @param response
      */
-    @RequestMapping(value = "/findCount",method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-    public void findCount(HttpServletResponse response){
+    @ApiOperation(
+            value = "查询表记录总数",
+            notes = "根据条件查询表记录总数",
+            produces="application/json",
+            consumes="application/json")
+    @GetMapping(value = "/findCount")
+    public Result findCount(HttpServletResponse response){
         try {
             Map<String,Object> map = new HashMap<>();
             Long count = hydrologyService.selectCount(map);
             //System.err.println("========="+count+"========");
-            PrintWriter out = response.getWriter();
             Map<String,Object> res = new HashMap<>();
             res.put("Count",count);
-            out.print(JsonUtil.toJson(res));
-        }catch (IOException e){
+            return ResultGenerator.genSuccessResult(res);
+        }catch (Exception e){
             e.printStackTrace();
         }
-
+        return null;
     }
 
     /**
      * 根据ID更新hydrology记录
      * @param hydrology
-     * @param response
      */
-    @RequestMapping(value = "/update",method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
-    public void update(Hydrology hydrology, HttpServletResponse response){
+    @ApiOperation(
+            value = "更新表记录",
+            notes = "根据条件更新表记录",
+            produces="application/json",
+            consumes="application/json")
+    @PutMapping(value = "/update")
+    public Result update(@RequestBody @ApiParam(name = "更新参数" ,value="传入json格式",required = true) Hydrology hydrology){
         System.err.println(hydrology.toString());
         hydrologyService.update(hydrology);
         System.err.println("更新完成->");
+        return  ResultGenerator.genSuccessResult();
     }
 
     /**
      * 新增一条记录
-     * @param jsonStr
-     * @param response
+     * @param hydrology
      */
-    @RequestMapping(value = {"/insert"},method = RequestMethod.POST)
-    public void insert(@RequestBody String jsonStr, HttpServletResponse response){
-        JSONObject jsonObject = JSONObject.fromObject(jsonStr);
-        Hydrology hydrology = (Hydrology) JSONObject.toBean(jsonObject,Hydrology.class);//将前台传来的json字符串转换为json对象
+    @ApiOperation(
+            value = "新增一条表记录",
+            notes = "添加一条表记录",
+            produces="application/json",
+            consumes="application/json")
+    @PostMapping(value = "/insert")
+    public Result insert(@RequestBody @ApiParam(name = "新增参数" ,value="传入json格式",required = true)Hydrology hydrology){
+        //JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+        // hydrology = (Hydrology) JSONObject.toBean(jsonObject,Hydrology.class);//将前台传来的json字符串转换为json对象
         if ("".equals(hydrology.getDt())||hydrology.getDt()==null){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             hydrology.setDt(sdf.format(new Date()));
@@ -71,25 +85,37 @@ public class HydrologyController {
         System.err.println(hydrology.toString());
         hydrologyService.insert(hydrology);
         System.err.println("插入完成->");
+        return  ResultGenerator.genSuccessResult();
     }
 
     /**
      * 根据ID删除记录
      * @param id
      */
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public void deleteById(@PathVariable String id){
+    @ApiOperation(
+            value = "删除一条表记录",
+            notes = "根据id删除",
+            produces="application/json",
+            consumes="application/json")
+    @DeleteMapping(value = "/{id}")
+    public Result deleteById(@PathVariable String id){
         System.err.println("id: "+id);
         hydrologyService.deleteById(id);
         System.err.println("成功删除ID："+id+"的数据");
+        return  ResultGenerator.genSuccessResult();
     }
 
     /**
      * 批量删除
      * @param list
      */
-    @RequestMapping(value = "deleteByList" ,method = RequestMethod.DELETE)
-    public void deleteByList(@RequestBody List<String> list){
+    @ApiOperation(
+            value = "批量删除表记录",
+            notes = "根据ids删除",
+            produces="application/json",
+            consumes="application/json")
+    @DeleteMapping(value = "deleteByList")
+    public Result deleteByList(@RequestBody List<String> list){
 
         System.err.println(list);
         //JSONArray jsonArray = JSONArray.fromObject(list);
@@ -98,44 +124,8 @@ public class HydrologyController {
             System.err.println(str);
         }
         hydrologyService.deleteByList(list);
+        return  ResultGenerator.genSuccessResult();
     }
 
-    /*@RequestMapping(value = "searchDuanMianAverage" ,method = RequestMethod.GET)
-    public void searchHydrologyAverage(@RequestParam(value = "siteId",required = true,defaultValue = "SZDMP0001") String siteId,
-                                      @RequestParam(value = "Dt",required = true,defaultValue = "")String Dt,
-                                      @RequestParam(value = "condition",required = true,defaultValue = "Year")String condition,
-                                      HttpServletResponse response){
-        System.err.println("siteId:"+ siteId+"  "+"Dt:"+Dt +"  "+"condition:"+condition);
-        response.setContentType("application/json;charset=utf-8");
-        try {
-            PrintWriter out = response.getWriter();
-            Map<String,Object> map = new HashMap<>();
-            SimpleDateFormat sdf = null;
-            map.put("searchDate",condition);
-            map.put("siteId",siteId);
-            if (condition.equals("Year")){
-                sdf = new SimpleDateFormat("yyyy");
-                Date dt = sdf.parse(Dt);
-                String strDT = sdf.format(dt);
-                //System.err.println(strDT);
-                map.put("DT",strDT);
-            }else if (condition.equals("Month")){
-                sdf = new SimpleDateFormat("yyyy-MM");
-                Date dt = sdf.parse(Dt);
-                String strDT = sdf.format(dt);
-                map.put("DT",strDT);
-            }else if (condition.equals("Day")){
-                sdf = new SimpleDateFormat("yyyy-MM-dd");
-                Date dt = sdf.parse(Dt);
-                String strDT = sdf.format(dt);
-                map.put("DT",strDT);
-            }
-            Hydrology resList = hydrologyService.selectAverageByMap(map);
-            out.print(JsonUtil.toJson(resList));
-            System.err.println(resList);
-            //System.err.println(resList.size());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }*/
+
 }

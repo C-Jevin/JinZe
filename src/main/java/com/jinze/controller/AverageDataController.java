@@ -1,23 +1,24 @@
 package com.jinze.controller;
 
+import com.jinze.core.Result;
+import com.jinze.core.ResultGenerator;
 import com.jinze.entity.*;
 import com.jinze.service.*;
 import com.jinze.util.AverageDateUtil;
-import com.jinze.util.JsonUtil;
+import com.jinze.util.DateUtil;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(value = "计算年月日平均值", description = "计算水文水质年月日平均/降雨和操作 API", position = 100, protocols = "http")
 @RestController
-@RequestMapping("api")
+@RequestMapping("/JinZeApi")
 public class AverageDataController {
 
     @Autowired
@@ -31,66 +32,107 @@ public class AverageDataController {
     @Autowired
     private YanJiuQuWQService yanJiuQuWQService;
 
-    @RequestMapping(value = "averData" ,method = RequestMethod.POST)
-    public void selectAverByDate(@RequestBody Map<String,Object> map , HttpServletResponse response){
+    @ApiOperation(
+            value = "水文水质年月日平均值",
+            notes = "根据条件计算出相关的平均值",
+            produces="application/json",
+            consumes="application/json")
+    @PostMapping(value = "averData" )
+    public Result selectAverByDate(@RequestBody @ApiParam(name="查询条件",value="传入json格式",required=true)SearchCond searchCond , HttpServletResponse response){
         try{
-            System.err.println(map.toString());
             response.setContentType("application/json;charset=utf-8");
             Map<String,Object> param = new HashMap<>();
-            PrintWriter out = response.getWriter();
-            String tbName = (String) map.get("tbName");
-            String cond = (String)map.get("condition");
-            System.err.println("========="+cond+"========");
-            List<String> dateList = AverageDateUtil.splitDate(map);
-            System.err.println(dateList.toString());
-            String siteId = (String)map.get("siteId");
-            param.put("siteId",siteId);
+            //判空
+            if(searchCond.getStartTime().equals("")||searchCond.getEndTime().equals("")){
+                throw new NullPointerException("开始时间和结束时间不能为空！");
+            }
+            Date sDate = DateUtil.getDateFromStr(searchCond.getStartTime(),"yyyy-MM-dd");
+            Date eDate = DateUtil.getDateFromStr(searchCond.getEndTime(),"yyyy-MM-dd");
+            //判断时间大小以及 其他条件判空
+            if(eDate.before(sDate)){
+                throw new Exception("开始时间不能小于结束时间！");
+            }
+            if(searchCond.getTbName().equals("")){
+                throw new NullPointerException("数据表名不能为空！");
+            }
+            if(searchCond.getSiteId().equals("")){
+                throw new NullPointerException("站点ID不能为空！");
+            }
+            if(searchCond.getCondition().equals("")){
+                throw new NullPointerException("计算条件不能为空！");
+            }
+            List<String> dateList = AverageDateUtil.splitDate(searchCond);
+            System.err.println("时间范围："+dateList.toString());
+            param.put("siteId",searchCond.getSiteId());
             param.put("list",dateList);
-            param.put("searchDate",cond);
-            if (tbName.equals("tb_duanmianwq")){
+            param.put("searchDate",searchCond.getCondition());
+            if (searchCond.getTbName().equals("tb_duanmianwq")){
                 List<DuanMianWq> resList = duanmianWqService.selectAverageByDate(param);
-                out.print(JsonUtil.toJson(resList));
                 for (DuanMianWq duanMianWq : resList){
                     System.err.println(duanMianWq.toString());
                 }
-            }else if (tbName.equals("tb_hydrology")){
+                return ResultGenerator.genSuccessResult(resList);
+            }else if (searchCond.getTbName().equals("tb_hydrology")){
                 List<Hydrology> resList = hydrologyService.selectAverageByDate(param);
-                out.print(JsonUtil.toJson(resList));
-            }else if (tbName.equals("tb_weather")){
+                return ResultGenerator.genSuccessResult(resList);
+            }else if (searchCond.getTbName().equals("tb_weather")){
                 List<Weather> resList = weatherService.selectAverageByDate(param);
-                out.print(JsonUtil.toJson(resList));
-            }else if (tbName.equals("tb_yanjiuquwq")){
+                return ResultGenerator.genSuccessResult(resList);
+            }else if (searchCond.getTbName().equals("tb_yanjiuquwq")){
                 List<YanJiuQuWQ> resList = yanJiuQuWQService.selectAverageByDate(param);
-                out.print(JsonUtil.toJson(resList));
+                return ResultGenerator.genSuccessResult(resList);
             }
         }catch (Exception e){
             e.printStackTrace();
+            return ResultGenerator.genFailResult(e.getMessage());
         }
+        return null;
     }
 
-    @RequestMapping(value = "rainPlus" ,method = RequestMethod.POST)
-    public void selectRainPlus(@RequestBody Map<String,Object> map,HttpServletResponse response){
+    @ApiOperation(
+            value = "降雨累加和",
+            notes = "根据条件计算出相关降雨累加和值",
+            produces="application/json",
+            consumes="application/json")
+    @PostMapping(value = "rainPlus")
+    public Result selectRainPlus(@RequestBody @ApiParam(name="查询条件",value="传入json格式",required=true)SearchCond searchCond, HttpServletResponse response){
         try{
             response.setContentType("application/json;charset=utf-8");
             Map<String,Object> param = new HashMap<>();
-            PrintWriter out = response.getWriter();
-            String tbName = (String) map.get("tbName");
-            String cond = (String)map.get("condition");
-            System.err.println("========="+cond+"========");
-            List<String> dateList = AverageDateUtil.splitDate(map);
-            System.err.println(dateList.toString());
-            String siteId = (String)map.get("siteId");
-            param.put("siteId",siteId);
+            //判空
+            if(searchCond.getStartTime().equals("")||searchCond.getEndTime().equals("")){
+                throw new NullPointerException("开始时间和结束时间不能为空！");
+            }
+            Date sDate = DateUtil.getDateFromStr(searchCond.getStartTime(),"yyyy-MM-dd");
+            Date eDate = DateUtil.getDateFromStr(searchCond.getEndTime(),"yyyy-MM-dd");
+            //判断时间大小以及 其他条件判空
+            if(eDate.before(sDate)){
+                throw new Exception("开始时间不能小于结束时间！");
+            }
+            if(searchCond.getTbName().equals("")){
+                throw new NullPointerException("数据表名不能为空！");
+            }
+            if(searchCond.getSiteId().equals("")){
+                throw new NullPointerException("站点ID不能为空！");
+            }
+            if(searchCond.getCondition().equals("")){
+                throw new NullPointerException("计算条件不能为空！");
+            }
+            List<String> dateList = AverageDateUtil.splitDate(searchCond);
+            System.err.println("时间范围："+dateList.toString());
+            param.put("siteId",searchCond.getSiteId());
             param.put("list",dateList);
-            param.put("searchDate",cond);
-            if(tbName.equals("tb_rain")){
+            param.put("searchDate",searchCond.getCondition());
+            if(searchCond.getTbName().equals("tb_rain")){
                 List<Rain> resList = rainService.selectPlusByDate(param);
                 if(resList.size()>0){
-                    out.print(JsonUtil.toJson(resList));
+                    return ResultGenerator.genSuccessResult(resList);
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
+            return ResultGenerator.genFailResult(e.getMessage());
         }
+        return  null;
     }
 }

@@ -71,6 +71,9 @@
 			<if test="id != null">
 				ID,
 			</if>
+			<if test="siteId != null">
+				siteId,
+			</if>
 			<if test="siteName != null">
 				siteName,
 			</if>
@@ -84,6 +87,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id},
+			</if>
+			<if test="siteId != null">
+				#{siteId},
 			</if>
 			<if test="siteName != null">
 				#{siteName},
@@ -111,17 +117,20 @@
 	<update id="update" parameterType="com.jinze.entity.Hydrology">
 		update tb_hydrology
 		<set>
-			<if test="record.id != null">
-				ID = #{record.id,jdbcType=VARCHAR},
+			<if test="ID != null">
+				id = #{ID,jdbcType=VARCHAR},
 			</if>
-			<if test="record.sitename != null">
-				siteName = #{record.sitename,jdbcType=VARCHAR},
+			<if test="siteId != null">
+				siteId = #{siteId,jdbcType=VARCHAR},
 			</if>
-			<if test="record.dt != null">
-				Dt = #{record.dt},
+			<if test="siteName != null">
+				siteName = #{siteName,jdbcType=VARCHAR},
 			</if>
-			<if test="record.level != null">
-				level = #{record.level},
+			<if test="Dt != null">
+				Dt = #{Dt},
+			</if>
+			<if test="level != null">
+				level = #{level},
 			</if>
 		</set>
 	</update>
