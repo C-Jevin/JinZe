@@ -17,8 +17,8 @@
 	</resultMap>
 	
 	<!-- 根据站点名称查询所有符合条件的数据 -->
-	<select id="selectDuanmianWqBySiteName" resultMap="DuanmianWqMapper" parameterType="string">
-		select * from tb_duanmianWQ where siteName = #{siteName}
+	<select id="selectDuanmianWqBySiteId" resultMap="DuanmianWqMapper" parameterType="string">
+		select * from tb_duanmianWQ where siteId = #{siteId}
 	</select>
 	<!--根据条件查找日均、月均或年均数据-->
 	<select id="selectAverageByMap" parameterType="map" resultMap="DuanmianWqMapper">

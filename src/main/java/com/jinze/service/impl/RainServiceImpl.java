@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.jinze.entity.YanJiuQuWQ;
 import com.jinze.util.AverageDateUtil;
+import com.jinze.util.EmptySentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,11 +23,11 @@ public class RainServiceImpl implements RainService{
 	private RainDao rainDao;
 	/**
 	 * 根据站点名称查询所有符合条件的数据
-	 * @param siteName
+	 * @param siteId
 	 * @return
 	 */
-	public List<Rain> selectRainBySiteName(String siteName){
-		return rainDao.selectRainBySiteName(siteName);
+	public List<Rain> selectRainBySiteId(String siteId){
+		return rainDao.selectRainBySiteId(siteId);
 	}
 
 	public Long selectCount(Map<String, Object> map) {
@@ -68,7 +69,7 @@ public class RainServiceImpl implements RainService{
 			if (sameDateRes.size() > 0) {
 				Double totalRainFall = 0d;
 				for (Rain rain:sameDateRes){
-					totalRainFall+= rain.getRainFall();
+					totalRainFall+=EmptySentence.judeEmpty(rain.getRainFall()) ;
 				}
 				Rain rainPlus = new Rain();
 				rainPlus.setRainFall(totalRainFall);

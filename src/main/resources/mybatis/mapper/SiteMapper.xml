@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinze.dao.SiteDao">
+    <resultMap id="SiteResult" type="com.jinze.entity.Site">
+        <id property="id" column="id"/>
+        <result property="siteId" column="siteId"/>
+        <result property="siteName" column="siteName"/>
+        <result property="tbName" column="tbName"/>
+    </resultMap>
+
+    <select id="findTbNameBySiteId" resultMap="SiteResult" parameterType="String">
+        SELECT * from tb_site where siteId=#{siteId,jdbcType=VARCHAR}
+    </select>
+</mapper>

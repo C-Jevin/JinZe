@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 public interface HydrologyDao {
 	/**
 	 * 根据站点名称查询所有符合条件的数据
-	 * @param siteName
+	 * @param siteId
 	 * @return
 	 */
-	public List<Hydrology> selectHydrologyBySiteName(String siteName);
+	 List<Hydrology> selectHydrologyBySiteId(String siteId);
 	/**
 	 *根据条件查询表记录总数
 	 */

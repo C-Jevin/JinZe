@@ -18,11 +18,11 @@ public class GroundWaterServiceImpl implements GroundWaterService{
 	private GroundWaterDao groundWaterDao;
 	/**
 	 * 根据站点名称查询所有符合条件的数据
-	 * @param siteName
+	 * @param siteId
 	 * @return
 	 */
-	public List<GroundWater> selectGroundWaterBySiteName(String siteName){
-		return groundWaterDao.selectGroundWaterBySiteName(siteName);
+	public List<GroundWater> selectGroundWaterBySiteId(String siteId){
+		return groundWaterDao.selectGroundWaterBySiteId(siteId);
 	}
 
 	/**

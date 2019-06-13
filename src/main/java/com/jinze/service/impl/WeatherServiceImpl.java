@@ -4,6 +4,7 @@ import com.jinze.dao.WeatherDao;
 import com.jinze.entity.Weather;
 import com.jinze.service.WeatherService;
 import com.jinze.util.AverageDateUtil;
+import com.jinze.util.EmptySentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,31 +19,31 @@ import java.util.Map;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED,rollbackFor={Exception.class})
-public class WeatherServiceIpml implements WeatherService {
+public class WeatherServiceImpl implements WeatherService {
     @Autowired
     private WeatherDao weatherDao;
-    public List<Weather> selectWeatherBySiteName(String siteName) {
-        return null;
+    public List<Weather> selectWeatherBySiteId(String siteId) {
+        return weatherDao.selectWeatherBySiteId(siteId);
     }
 
     public Long selectCount(Map<String, Object> map) {
-        return null;
+        return weatherDao.selectCount(map);
     }
 
     public void update(Weather weather) {
-
+        weatherDao.update(weather);
     }
 
     public void deleteById(String id) {
-
+        weatherDao.deleteById(id);
     }
 
     public void deleteByList(List<String> list) {
-
+        weatherDao.deleteByList(list);
     }
 
     public void insert(Weather weather) {
-
+        weatherDao.insert(weather);
     }
 
     public List<Weather> selectAverageByMap(Map<String, Object> map) {
@@ -76,11 +77,11 @@ public class WeatherServiceIpml implements WeatherService {
                 Double totalPo = 0d;
                 Integer resSize = sameDateRes.size();
                 for(Weather wt : sameDateRes){
-                    totalRrr+=wt.getRRR();
-                    totalT+=wt.getT();
-                    totalDd+=wt.getDD();
-                    totalFf+=wt.getFF();
-                    totalPo+=wt.getPO();
+                    totalRrr+=EmptySentence.judeEmpty(wt.getRRR());
+                    totalT+=EmptySentence.judeEmpty(wt.getT());
+                    totalDd+=EmptySentence.judeEmpty(wt.getDD());
+                    totalFf+=EmptySentence.judeEmpty(wt.getFF());
+                    totalPo+=EmptySentence.judeEmpty(wt.getPO());
                 }
                 Double averRrr = totalRrr/resSize;
                 Double averT = totalT/resSize;

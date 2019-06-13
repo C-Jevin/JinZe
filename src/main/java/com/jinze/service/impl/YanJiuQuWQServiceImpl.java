@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jinze.util.AverageDateUtil;
+import com.jinze.util.EmptySentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,11 +22,11 @@ public class YanJiuQuWQServiceImpl implements YanJiuQuWQService{
 	private YanJiuQuWQDao yanJiuQuWQDao;
 	/**
 	 * 根据站点名称查询所有符合条件的数据
-	 * @param siteName
+	 * @param siteId
 	 * @return
 	 */
-	public List<YanJiuQuWQ> selectYanJiuQuWQBySiteName(String siteName){
-		return yanJiuQuWQDao.selectYanJiuQuWQBySiteName(siteName);
+	public List<YanJiuQuWQ> selectYanJiuQuWQBySiteId(String siteId){
+		return yanJiuQuWQDao.selectYanJiuQuWQBySiteId(siteId);
 	}
 
 	public Long selectCount(Map<String, Object> map) {
@@ -77,12 +78,12 @@ public class YanJiuQuWQServiceImpl implements YanJiuQuWQService{
 				Double totalTp = 0d;
 				int resSize = sameDateRes.size();
 				for(YanJiuQuWQ yj : sameDateRes){
-					totalNh3_n+=yj.getNH3_N();
-					totalCodmn+=yj.getCODmn();
-					totalCod+= yj.getCOD();
-					totalDo+= yj.getDO();
-					totalBod5+= yj.getBOD5();
-					totalTp+= yj.getTP();
+					totalNh3_n+=EmptySentence.judeEmpty(yj.getNH3_N());
+					totalCodmn+=EmptySentence.judeEmpty(yj.getCODmn());
+					totalCod+= EmptySentence.judeEmpty(yj.getCOD());
+					totalDo+= EmptySentence.judeEmpty(yj.getDO());
+					totalBod5+= EmptySentence.judeEmpty(yj.getBOD5());
+					totalTp+= EmptySentence.judeEmpty(yj.getTP());
 				}
 				Double averNh3_n = totalNh3_n/resSize;
 				Double averCodmn = totalCodmn/resSize;

@@ -8,6 +8,7 @@ import java.util.Map;
 import com.jinze.entity.DuanMianWq;
 import com.jinze.util.AverageDateUtil;
 import com.jinze.util.DateUtil;
+import com.jinze.util.EmptySentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -23,11 +24,11 @@ public class HydrologyServiceImpl implements HydrologyService{
 	private HydrologyDao hydrologyDao;
 	/**
 	 * 根据站点名称查询所有符合条件的数据
-	 * @param siteName
+	 * @param siteId
 	 * @return
 	 */
-	public List<Hydrology> selectHydrologyBySiteName(String siteName){
-		return hydrologyDao.selectHydrologyBySiteName(siteName);
+	public List<Hydrology> selectHydrologyBySiteId(String siteId){
+		return hydrologyDao.selectHydrologyBySiteId(siteId);
 	}
 
 	public Long selectCount(Map<String, Object> map) {
@@ -55,7 +56,7 @@ public class HydrologyServiceImpl implements HydrologyService{
 		Double totalLevel = 0d;
 		int resSize = resList.size();
 		for(Hydrology hy : resList){
-			totalLevel+=hy.getLevel();
+			totalLevel+=EmptySentence.judeEmpty(hy.getLevel());
 		}
 		Double averLevel = totalLevel/resSize;
 		Hydrology hydrology = new Hydrology();
@@ -87,7 +88,7 @@ public class HydrologyServiceImpl implements HydrologyService{
 				Double totalLevel = 0d;
 				int resSize = sameDateRes.size();
 				for(Hydrology hy : sameDateRes){
-					totalLevel+=hy.getLevel();
+					totalLevel+=EmptySentence.judeEmpty(hy.getLevel());
 				}
 				Double averLevel = totalLevel/resSize;
 				Hydrology hydrology = new Hydrology();

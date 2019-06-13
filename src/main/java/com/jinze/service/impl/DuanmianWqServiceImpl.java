@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.jinze.util.AverageDateUtil;
 import com.jinze.util.DateUtil;
+import com.jinze.util.EmptySentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,11 @@ public class DuanmianWqServiceImpl implements DuanmianWqService{
 	private DuanmianWqDao duanmianWqDao;
 	/**
 	 * 根据站点名称查询所有符合条件的数据
-	 * @param siteName
+	 * @param siteId
 	 * @return
 	 */
-	public List<DuanMianWq> selectDuanmianWqBySiteName(String siteName){
-		return duanmianWqDao.selectDuanmianWqBySiteName(siteName);
+	public List<DuanMianWq> selectDuanmianWqBySiteId(String siteId){
+		return duanmianWqDao.selectDuanmianWqBySiteId(siteId);
 	}
 	/**
 	 *根据条件查询表记录总数
@@ -119,12 +120,8 @@ public class DuanmianWqServiceImpl implements DuanmianWqService{
 	 * @return
 	 */
 	public List<DuanMianWq> selectAverageByDate(Map<String,Object> param){
-		//List<List> splitResList = new ArrayList<>();
 		List<DuanMianWq> sameResult = new ArrayList<>();
 		List<DuanMianWq> resList = duanmianWqDao.selectAverageByDate(param);
-		/*for (DuanMianWq duanMianWq : resList){
-			System.err.println(duanMianWq.toString());
-		}*/
 		List<String> dateList = (List<String>) param.get("list");
 		String cond = (String)param.get("searchDate");
 		for (int i=0;i<dateList.size();i++){
@@ -137,27 +134,7 @@ public class DuanmianWqServiceImpl implements DuanmianWqService{
 				if (fsame){
 					sameDateRes.add(duanMianWq);
 				}
-				/*if(cond.equals("Year")){
-					Date dateFromStr = DateUtil.getDateFromStr(strDate,"yyyy");
-					String strFromDate = DateUtil.getStrFromDate(dateFromStr,"yyyy");
-					if (date.equals(strFromDate)){
-						sameDateRes.add(duanMianWq);
-					}
-				}else if (cond.equals("Mon")){
-					Date dateFromStr = DateUtil.getDateFromStr(strDate,"yyyy-MM");
-					String strFromDate = DateUtil.getStrFromDate(dateFromStr,"yyyy-MM");
-					if (date.equals(strFromDate)){
-						sameDateRes.add(duanMianWq);
-					}
-				}else if(cond.equals("Day")){
-					Date dateFromStr = DateUtil.getDateFromStr(strDate,"yyyy-MM-dd");
-					String strFromDate = DateUtil.getStrFromDate(dateFromStr,"yyyy-MM-dd");
-					if (date.equals(strFromDate)){
-						sameDateRes.add(duanMianWq);
-					}
-				}*/
 			}
-
 			if (sameDateRes.size()>0){
 			//计算平均值
 			Double totalDO= 0d;
@@ -170,14 +147,14 @@ public class DuanmianWqServiceImpl implements DuanmianWqService{
 			Double totalSS = 0d;
 			int resSize = sameDateRes.size();
 			for(DuanMianWq dmw :sameDateRes){
-				totalDO+=dmw.getDO();
-				totalCOD+=dmw.getCOD();
-				totalNH3_N+=dmw.getNH3_N();
-				totalNO3_N+=dmw.getNO3_N();
-				totalPO4+=dmw.getPO4();
-				totalTN+=dmw.getTN();
-				totalTP+=dmw.getTP();
-				totalSS+=dmw.getSS();
+				totalDO+=EmptySentence.judeEmpty(dmw.getDO());
+				totalCOD+=EmptySentence.judeEmpty(dmw.getCOD());
+				totalNH3_N+=EmptySentence.judeEmpty(dmw.getNH3_N());
+				totalNO3_N+=EmptySentence.judeEmpty(dmw.getNO3_N());
+				totalPO4+=EmptySentence.judeEmpty(dmw.getPO4());
+				totalTN+=EmptySentence.judeEmpty(dmw.getTN());
+				totalTP+=EmptySentence.judeEmpty(dmw.getTP());
+				totalSS+=EmptySentence.judeEmpty(dmw.getSS());
 			}
 			Double AverDO= totalDO/resSize;
 			Double AverCOD = totalCOD/resSize;
@@ -197,6 +174,7 @@ public class DuanmianWqServiceImpl implements DuanmianWqService{
 			duanMianWq.setTP(AverTP);
 			duanMianWq.setSS(AverSS);
 			duanMianWq.setSiteId(sameDateRes.get(0).getSiteId());
+			System.err.println(dateList.get(i));
 			duanMianWq.setDT(dateList.get(i));
 			duanMianWq.setSiteName(sameDateRes.get(0).getSiteName());
 			//封装到List集合

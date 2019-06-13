@@ -13,10 +13,10 @@ import com.jinze.entity.GroundWater;
 public interface GroundWaterService {
 	/**
 	 * 根据站点名称查询所有符合条件的数据
-	 * @param siteName
+	 * @param siteId
 	 * @return
 	 */
-	List<GroundWater> selectGroundWaterBySiteName(String siteName);
+	List<GroundWater> selectGroundWaterBySiteId(String siteId);
 	/**
 	 *根据条件查询表记录总数
 	 */

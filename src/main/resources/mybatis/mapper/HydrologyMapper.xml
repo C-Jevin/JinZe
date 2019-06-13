@@ -10,8 +10,8 @@
 	</resultMap>
 	
 	<!-- 根据站点名称查询所有符合条件的数据 -->
-	<select id="selectHydrologyBySiteName" resultMap="HydrologyMapper" parameterType="string">
-		select * from tb_hydrology where siteName = #{siteName}
+	<select id="selectHydrologyBySiteId" resultMap="HydrologyMapper" parameterType="string">
+		select * from tb_hydrology where siteId = #{siteId}
 	</select>
 	<!--查询表记录总数-->
 	<select id="selectCount" parameterType="map" resultType="long">

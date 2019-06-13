@@ -31,6 +31,8 @@ public class AverageDataController {
     private WeatherService weatherService;
     @Autowired
     private YanJiuQuWQService yanJiuQuWQService;
+    @Autowired
+    private SiteService siteService;
 
     @ApiOperation(
             value = "水文水质年月日平均值",
@@ -40,6 +42,7 @@ public class AverageDataController {
     @PostMapping(value = "averData" )
     public Result selectAverByDate(@RequestBody @ApiParam(name="查询条件",value="传入json格式",required=true)SearchCond searchCond , HttpServletResponse response){
         try{
+            String tbName = siteService.findTbNameBySiteId(searchCond.getSiteId()).getTbName();
             response.setContentType("application/json;charset=utf-8");
             Map<String,Object> param = new HashMap<>();
             //判空
@@ -52,9 +55,9 @@ public class AverageDataController {
             if(eDate.before(sDate)){
                 throw new Exception("开始时间不能小于结束时间！");
             }
-            if(searchCond.getTbName().equals("")){
+           /* if(searchCond.getTbName().equals("")){
                 throw new NullPointerException("数据表名不能为空！");
-            }
+            }*/
             if(searchCond.getSiteId().equals("")){
                 throw new NullPointerException("站点ID不能为空！");
             }
@@ -66,19 +69,19 @@ public class AverageDataController {
             param.put("siteId",searchCond.getSiteId());
             param.put("list",dateList);
             param.put("searchDate",searchCond.getCondition());
-            if (searchCond.getTbName().equals("tb_duanmianwq")){
+            if (tbName.equals("tb_duanmianwq")){
                 List<DuanMianWq> resList = duanmianWqService.selectAverageByDate(param);
                 for (DuanMianWq duanMianWq : resList){
                     System.err.println(duanMianWq.toString());
                 }
                 return ResultGenerator.genSuccessResult(resList);
-            }else if (searchCond.getTbName().equals("tb_hydrology")){
+            }else if (tbName.equals("tb_hydrology")){
                 List<Hydrology> resList = hydrologyService.selectAverageByDate(param);
                 return ResultGenerator.genSuccessResult(resList);
-            }else if (searchCond.getTbName().equals("tb_weather")){
+            }else if (tbName.equals("tb_weather")){
                 List<Weather> resList = weatherService.selectAverageByDate(param);
                 return ResultGenerator.genSuccessResult(resList);
-            }else if (searchCond.getTbName().equals("tb_yanjiuquwq")){
+            }else if (tbName.equals("tb_yanjiuquwq")){
                 List<YanJiuQuWQ> resList = yanJiuQuWQService.selectAverageByDate(param);
                 return ResultGenerator.genSuccessResult(resList);
             }
@@ -97,6 +100,7 @@ public class AverageDataController {
     @PostMapping(value = "rainPlus")
     public Result selectRainPlus(@RequestBody @ApiParam(name="查询条件",value="传入json格式",required=true)SearchCond searchCond, HttpServletResponse response){
         try{
+            String tbName = siteService.findTbNameBySiteId(searchCond.getSiteId()).getTbName();
             response.setContentType("application/json;charset=utf-8");
             Map<String,Object> param = new HashMap<>();
             //判空
@@ -109,9 +113,9 @@ public class AverageDataController {
             if(eDate.before(sDate)){
                 throw new Exception("开始时间不能小于结束时间！");
             }
-            if(searchCond.getTbName().equals("")){
+            /*if(searchCond.getTbName().equals("")){
                 throw new NullPointerException("数据表名不能为空！");
-            }
+            }*/
             if(searchCond.getSiteId().equals("")){
                 throw new NullPointerException("站点ID不能为空！");
             }
@@ -123,7 +127,7 @@ public class AverageDataController {
             param.put("siteId",searchCond.getSiteId());
             param.put("list",dateList);
             param.put("searchDate",searchCond.getCondition());
-            if(searchCond.getTbName().equals("tb_rain")){
+            if(tbName.equals("tb_rain")){
                 List<Rain> resList = rainService.selectPlusByDate(param);
                 if(resList.size()>0){
                     return ResultGenerator.genSuccessResult(resList);

@@ -12,10 +12,10 @@ import com.jinze.entity.DuanMianWq;
 public interface DuanmianWqService {
 	/**
 	 * 根据站点名称查询所有符合条件的数据
-	 * @param siteName
+	 * @param siteId
 	 * @return
 	 */
-	 List<DuanMianWq> selectDuanmianWqBySiteName(String siteName);
+	 List<DuanMianWq> selectDuanmianWqBySiteId(String siteId);
 	/**
 	 *根据条件查询表记录总数
 	 */

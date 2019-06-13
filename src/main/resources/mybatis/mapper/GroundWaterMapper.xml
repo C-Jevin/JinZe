@@ -10,8 +10,8 @@
 	</resultMap>
 	
 	<!-- 根据站点名称查询所有符合条件的数据 -->
-	<select id="selectGroundWaterBySiteName" resultMap="GroundWaterMapper" parameterType="string">
-		select * from tb_groundWater where siteName = #{siteName}
+	<select id="selectGroundWaterBySiteId" resultMap="GroundWaterMapper" parameterType="string">
+		select * from tb_groundWater where siteId = #{siteId}
 	</select>
 	<!--根据条件查询表记录总数-->
 	<select id="selectCount" resultType="long" parameterType="map">

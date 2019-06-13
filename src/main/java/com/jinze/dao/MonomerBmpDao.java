@@ -16,7 +16,7 @@ public interface MonomerBmpDao {
 	 * @param
 	 * @return
 	 */
-	public List<MonomerBmp> selectMonomerBmp(Map<String, Object> map);
+	 List<MonomerBmp> selectMonomerBmp(Map<String, Object> map);
 	/**
 	 *根据条件查询表记录总数
 	 */

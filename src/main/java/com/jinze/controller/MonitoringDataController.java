@@ -34,13 +34,13 @@ public class MonitoringDataController {
 	private WeatherService weatherService;
 	@Autowired
 	private YanJiuQuWQService yanJiuQuWQService;
-	
+	@Autowired
+	private SiteService siteService;
 	
 	
 	/**
 	 * 根据表名和站点名查询数据
-	 * @param sName
-	 * @param tName
+	 * @param siteId
 	 */
 	@ApiOperation(
 			value = "查询表记录",
@@ -48,28 +48,28 @@ public class MonitoringDataController {
 			produces="application/json",
 			consumes="application/json")
 	@GetMapping(value = "/showData")
-	public Result showData(@RequestParam(value = "sName",required = true,defaultValue = "")String sName,
-						   @RequestParam(value = "tName",required = true,defaultValue = "")String tName) {
+	public Result showData(@RequestParam(value = "siteId",required = true,defaultValue = "")String siteId) {
 		try {
-			System.err.println(sName+" "+tName);
+			String tName = siteService.findTbNameBySiteId(siteId).getTbName();
+			System.err.println(siteId+" "+tName);
 			//根据表名称来判断查询的表，及返回数据
 			if(tName.equals("tb_rain")) {
-				List<Rain> list = rainService.selectRainBySiteName(sName);
+				List<Rain> list = rainService.selectRainBySiteId(siteId);
 				return ResultGenerator.genSuccessResult(list);
 			}else if(tName.equals("tb_weather")) {
-				List<Weather> list = weatherService.selectWeatherBySiteName(sName);
+				List<Weather> list = weatherService.selectWeatherBySiteId(siteId);
 				return ResultGenerator.genSuccessResult(list);
 			}else if(tName.equals("tb_hydrology")) {
-				List<Hydrology> list = hydrologyService.selectHydrologyBySiteName(sName);
+				List<Hydrology> list = hydrologyService.selectHydrologyBySiteId(siteId);
 				return ResultGenerator.genSuccessResult(list);
-			}else if(tName.equals("tb_duanmianWQ")) {
-				List<DuanMianWq> list = duanmianWqService.selectDuanmianWqBySiteName(sName);
+			}else if(tName.equals("tb_duanmianwq")) {
+				List<DuanMianWq> list = duanmianWqService.selectDuanmianWqBySiteId(siteId);
 				return ResultGenerator.genSuccessResult(list);
-			}else if(tName.equals("tb_yanjiuquWQ")) {
-				List<YanJiuQuWQ> list = yanJiuQuWQService.selectYanJiuQuWQBySiteName(sName);
+			}else if(tName.equals("tb_yanjiuquwq")) {
+				List<YanJiuQuWQ> list = yanJiuQuWQService.selectYanJiuQuWQBySiteId(siteId);
 				return ResultGenerator.genSuccessResult(list);
 			}else if(tName.equals("tb_groundWater")) {
-				List<GroundWater> list = groundWaterService.selectGroundWaterBySiteName(sName);
+				List<GroundWater> list = groundWaterService.selectGroundWaterBySiteId(siteId);
 				for (GroundWater groundWater : list) {
 					System.err.println(groundWater.toString());
 				}
@@ -77,6 +77,7 @@ public class MonitoringDataController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return ResultGenerator.genFailResult(e.getMessage());
 		}
 		return  null;
 	}
