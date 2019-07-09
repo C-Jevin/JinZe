@@ -23,7 +23,7 @@ public interface DuanmianWqService {
 	/**
 	 * 更新表记录
 	 */
-	void update(DuanMianWq duanmianWq);
+	void update(DuanMianWq duanMianWq);
 	/**
 	 * 删除表记录
 	 */
@@ -35,7 +35,7 @@ public interface DuanmianWqService {
 	/**
 	 * 新增表记录
 	 */
-	void insert(DuanMianWq duanmianWq);
+	void insert(DuanMianWq duanMianWq);
 	/**
 	 查询日均 月均 年均数据
 	 */

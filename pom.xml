@@ -11,9 +11,9 @@
     <groupId>com.jinze</groupId>
     <artifactId>JinZe</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>JinZe</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Project for JinZe</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

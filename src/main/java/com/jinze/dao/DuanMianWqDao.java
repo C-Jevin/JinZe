@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @Mapper
-public interface DuanmianWqDao {
+public interface DuanMianWqDao {
 	/**
 	 * 根据站点名称查询所有符合条件的数据
 	 * @param siteId
@@ -29,7 +29,7 @@ public interface DuanmianWqDao {
 	 * 更新表记录
 	 */
 
-	void update(DuanMianWq duanmianWq);
+	void update(DuanMianWq duanMianWq);
 	/**
 	 * 删除表记录
 	 */
@@ -41,7 +41,7 @@ public interface DuanmianWqDao {
 	/**
 	 * 新增表记录
 	 */
-	void insert(DuanMianWq duanmianWq);
+	void insert(DuanMianWq duanMianWq);
 	/**
 		查询日均 月均 年均数据
 	 */

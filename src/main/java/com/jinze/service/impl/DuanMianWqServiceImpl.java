@@ -1,19 +1,15 @@
 package com.jinze.service.impl;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.jinze.util.AverageDateUtil;
-import com.jinze.util.DateUtil;
 import com.jinze.util.EmptySentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jinze.dao.DuanmianWqDao;
+import com.jinze.dao.DuanMianWqDao;
 import com.jinze.entity.DuanMianWq;
 import com.jinze.service.DuanmianWqService;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,46 +17,46 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(propagation=Propagation.REQUIRED,rollbackFor={Exception.class})
-public class DuanmianWqServiceImpl implements DuanmianWqService{
+public class DuanMianWqServiceImpl implements DuanmianWqService{
 	@Autowired
-	private DuanmianWqDao duanmianWqDao;
+	private DuanMianWqDao duanMianWqDao;
 	/**
 	 * 根据站点名称查询所有符合条件的数据
 	 * @param siteId
 	 * @return
 	 */
 	public List<DuanMianWq> selectDuanmianWqBySiteId(String siteId){
-		return duanmianWqDao.selectDuanmianWqBySiteId(siteId);
+		return duanMianWqDao.selectDuanmianWqBySiteId(siteId);
 	}
 	/**
 	 *根据条件查询表记录总数
 	 */
 	public Long selectCount(Map<String, Object> map) {
-		return duanmianWqDao.selectCount(map);
+		return duanMianWqDao.selectCount(map);
 	}
 	/**
 	 * 更新表记录
 	 */
-	public void update(DuanMianWq duanmianWq) {
-		duanmianWqDao.update(duanmianWq);
+	public void update(DuanMianWq duanMianWq) {
+		duanMianWqDao.update(duanMianWq);
 	}
 	/**
 	 * 删除表记录
 	 */
 	public void deleteById(String id) {
-		duanmianWqDao.deleteById(id);
+		duanMianWqDao.deleteById(id);
 	}
 	/**
 	 * 批量删除表记录
 	 */
 	public void deleteByList(List<String> list) {
-		duanmianWqDao.deleteByList(list);
+		duanMianWqDao.deleteByList(list);
 	}
 	/**
 	 * 新增表记录
 	 */
-	public void insert(DuanMianWq duanmianWq) {
-		duanmianWqDao.insert(duanmianWq);
+	public void insert(DuanMianWq duanMianWq) {
+		duanMianWqDao.insert(duanMianWq);
 	}
 
 	/**
@@ -69,7 +65,7 @@ public class DuanmianWqServiceImpl implements DuanmianWqService{
 	 * @return
 	 */
 	public List<DuanMianWq> selectAverageByMap(Map<String, Object> map) {
-	    List<DuanMianWq> resList = duanmianWqDao.selectAverageByMap(map);
+	    List<DuanMianWq> resList = duanMianWqDao.selectAverageByMap(map);
         int resSize = resList.size();
         Double totalDO= 0d;
         Double totalCOD = 0d;
@@ -121,7 +117,7 @@ public class DuanmianWqServiceImpl implements DuanmianWqService{
 	 */
 	public List<DuanMianWq> selectAverageByDate(Map<String,Object> param){
 		List<DuanMianWq> sameResult = new ArrayList<>();
-		List<DuanMianWq> resList = duanmianWqDao.selectAverageByDate(param);
+		List<DuanMianWq> resList = duanMianWqDao.selectAverageByDate(param);
 		List<String> dateList = (List<String>) param.get("list");
 		String cond = (String)param.get("searchDate");
 		for (int i=0;i<dateList.size();i++){
