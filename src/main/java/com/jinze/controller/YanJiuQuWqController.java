@@ -8,6 +8,8 @@ import com.jinze.service.YanJiuQuWQService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +26,13 @@ import java.util.Map;
 @RequestMapping("/JinZeApi/yanJiuQu")
 public class YanJiuQuWqController {
 
+    private static Logger Log = LoggerFactory.getLogger(YanJiuQuWqController.class);
     @Autowired
     private YanJiuQuWQService yanJiuQuWQService;
     /**
      * 查询表记录总数
      * @param response
-     */
+     *//*
     @ApiOperation(
             value = "查询表记录总数",
             notes = "根据条件查询表记录总数",
@@ -41,13 +44,13 @@ public class YanJiuQuWqController {
         Map<String,Object> res = new HashMap<>();
         res.put("Count",yanJiuQuWQService.selectCount(map));
         return ResultGenerator.genSuccessResult(res);
-    }
+    }*/
 
     /**
      * 根据ID更新记录
      * @param yanJiuQuWQ
      */
-    @ApiOperation(
+    /*@ApiOperation(
             value = "更新表记录",
             notes = "根据条件更新表记录",
             produces="application/json",
@@ -60,10 +63,10 @@ public class YanJiuQuWqController {
         return  ResultGenerator.genSuccessResult();
     }
 
-    /**
+    *//**
      * 新增一条记录
      * @param rain
-     */
+     *//*
     @ApiOperation(
             value = "新增一条表记录",
             notes = "添加一条表记录",
@@ -85,10 +88,10 @@ public class YanJiuQuWqController {
         }
     }
 
-    /**
+    *//**
      * 根据ID删除记录
      * @param id
-     */
+     *//*
     @ApiOperation(
             value = "删除一条表记录",
             notes = "根据id删除",
@@ -102,10 +105,10 @@ public class YanJiuQuWqController {
         return  ResultGenerator.genSuccessResult();
     }
 
-    /**
+    *//**
      * 批量删除
      * @param list
-     */
+     *//*
     @ApiOperation(
             value = "批量删除表记录",
             notes = "根据ids删除",
@@ -120,5 +123,5 @@ public class YanJiuQuWqController {
         yanJiuQuWQService.deleteByList(list);
         return  ResultGenerator.genSuccessResult();
     }
-
+*/
 }

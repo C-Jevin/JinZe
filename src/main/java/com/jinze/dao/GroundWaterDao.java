@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jinze.entity.GroundWater;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Repository;
  * @author JackVan
  *
  */
-@Repository
-@Mapper
+//@Repository
+//@Mapper
+//@CacheNamespace
 public interface GroundWaterDao {
 	/**
 	 * 根据站点名称查询所有符合条件的数据

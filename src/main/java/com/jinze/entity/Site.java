@@ -1,6 +1,9 @@
 package com.jinze.entity;
 
-public class Site {
+import java.io.Serializable;
+
+public class Site implements Serializable {
+    private static final long serialVersionUID = 8960131207852685670L;
     private Integer id;
     private String siteId;
     private String siteName;

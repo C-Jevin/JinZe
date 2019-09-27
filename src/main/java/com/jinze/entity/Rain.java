@@ -7,6 +7,7 @@ import java.io.Serializable;
  *
  */
 public class Rain implements Serializable{
+	private static final long serialVersionUID = -8528133816214277421L;
 	private String ID;//序号
 	private String siteId;//站点ID
 	private String siteName;//站点名称

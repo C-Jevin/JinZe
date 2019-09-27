@@ -7,6 +7,8 @@ import com.jinze.service.HydrologyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/JinZeApi/hydrology")
 public class HydrologyController {
+    private static Logger Log = LoggerFactory.getLogger(HydrologyController.class);
     @Autowired
     private HydrologyService hydrologyService;
 
@@ -28,7 +31,7 @@ public class HydrologyController {
      * 查询表记录总数
      * @param response
      */
-    @ApiOperation(
+   /* @ApiOperation(
             value = "查询表记录总数",
             notes = "根据条件查询表记录总数",
             produces="application/json",
@@ -46,13 +49,13 @@ public class HydrologyController {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     /**
      * 根据ID更新hydrology记录
      * @param hydrology
      */
-    @ApiOperation(
+   /* @ApiOperation(
             value = "更新表记录",
             notes = "根据条件更新表记录",
             produces="application/json",
@@ -65,10 +68,10 @@ public class HydrologyController {
         return  ResultGenerator.genSuccessResult();
     }
 
-    /**
+    *//**
      * 新增一条记录
      * @param hydrology
-     */
+     *//*
     @ApiOperation(
             value = "新增一条表记录",
             notes = "添加一条表记录",
@@ -88,10 +91,10 @@ public class HydrologyController {
         return  ResultGenerator.genSuccessResult();
     }
 
-    /**
+    *//**
      * 根据ID删除记录
      * @param id
-     */
+     *//*
     @ApiOperation(
             value = "删除一条表记录",
             notes = "根据id删除",
@@ -105,10 +108,10 @@ public class HydrologyController {
         return  ResultGenerator.genSuccessResult();
     }
 
-    /**
+    *//**
      * 批量删除
      * @param list
-     */
+     *//*
     @ApiOperation(
             value = "批量删除表记录",
             notes = "根据ids删除",
@@ -126,6 +129,6 @@ public class HydrologyController {
         hydrologyService.deleteByList(list);
         return  ResultGenerator.genSuccessResult();
     }
-
+*/
 
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinze.dao.LinkoutqualMapper">
+  <resultMap id="BaseResultMap" type="com.jinze.entity.Linkoutqual">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="stateid" jdbcType="INTEGER" property="stateid" />
+    <result column="dt" jdbcType="TIMESTAMP" property="dt" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
+    <result column="pollutant" jdbcType="VARCHAR" property="pollutant" />
+    <result column="qual" jdbcType="DECIMAL" property="qual" />
+  </resultMap>
+</mapper>

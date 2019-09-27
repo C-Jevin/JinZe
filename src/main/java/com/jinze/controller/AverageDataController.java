@@ -7,6 +7,8 @@ import com.jinze.service.*;
 import com.jinze.util.AverageDateUtil;
 import com.jinze.util.DateUtil;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/JinZeApi")
 public class AverageDataController {
-
+    private static Logger Log = LoggerFactory.getLogger(AverageDataController.class);
     @Autowired
     private DuanmianWqService duanmianWqService;
     @Autowired
@@ -87,6 +89,7 @@ public class AverageDataController {
             }
         }catch (Exception e){
             e.printStackTrace();
+            Log.error(e.getMessage());
             return ResultGenerator.genFailResult(e.getMessage());
         }
         return null;
@@ -124,6 +127,7 @@ public class AverageDataController {
             }
             List<String> dateList = AverageDateUtil.splitDate(searchCond);
             System.err.println("时间范围："+dateList.toString());
+            System.out.println(tbName);
             param.put("siteId",searchCond.getSiteId());
             param.put("list",dateList);
             param.put("searchDate",searchCond.getCondition());
@@ -135,6 +139,7 @@ public class AverageDataController {
             }
         }catch (Exception e){
             e.printStackTrace();
+            Log.error(e.getMessage());
             return ResultGenerator.genFailResult(e.getMessage());
         }
         return  null;

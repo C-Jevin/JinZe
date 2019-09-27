@@ -11,6 +11,8 @@ import com.jinze.entity.Hydrology;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,7 @@ import com.jinze.service.MonomerBmpService;
 @RequestMapping("/JinZeApi/monomerBmp")
 public class MonomerBmpController {
 
+	private static Logger Log = LoggerFactory.getLogger(MonomerBmpController.class);
 	@Autowired
 	private MonomerBmpService monomerBmpService;
 	/**
@@ -65,16 +68,18 @@ public class MonomerBmpController {
 			//out.print(JsonUtil.toJson(result));
 			return ResultGenerator.genSuccessResult(result);
 		}catch (Exception e) {
+
 			e.printStackTrace();
+			Log.error(e.getMessage());
+			return ResultGenerator.genFailResult(e.getMessage());
 		}
-		return  null;
 	}
 
 	/**
 	 * 查询表记录总数
 	 * @param response
 	 */
-	@ApiOperation(
+	/*@ApiOperation(
 			value = "查询表记录总数",
 			notes = "根据条件查询表记录总数",
 			produces="application/json",
@@ -91,12 +96,12 @@ public class MonomerBmpController {
 		}
 		return null;
 	}
-
+*/
 	/**
 	 * 根据ID更新记录
 	 * @param monomerBmp
 	 */
-	@ApiOperation(
+	/*@ApiOperation(
 			value = "更新表记录",
 			notes = "根据条件更新表记录",
 			produces="application/json",
@@ -108,10 +113,10 @@ public class MonomerBmpController {
 		return  ResultGenerator.genSuccessResult();
 	}
 
-	/**
+	*//**
 	 * 新增一条记录
 	 * @param monomerBmp
-	 */
+	 *//*
 	@ApiOperation(
 			value = "新增一条表记录",
 			notes = "添加一条表记录",
@@ -125,10 +130,10 @@ public class MonomerBmpController {
 		return  ResultGenerator.genSuccessResult();
 	}
 
-	/**
+	*//**
 	 * 根据ID删除记录
 	 * @param id
-	 */
+	 *//*
 	@ApiOperation(
 			value = "删除一条表记录",
 			notes = "根据id删除",
@@ -142,10 +147,10 @@ public class MonomerBmpController {
 		return  ResultGenerator.genSuccessResult();
 	}
 
-	/**
+	*//**
 	 * 批量删除
 	 * @param list
-	 */
+	 *//*
 	@ApiOperation(
 			value = "批量删除表记录",
 			notes = "根据ids删除",
@@ -160,6 +165,6 @@ public class MonomerBmpController {
 		}
 		monomerBmpService.deleteByList(list);
 		return  ResultGenerator.genSuccessResult();
-	}
+	}*/
 
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinze.dao.SubbasinMapper">
+  <cache eviction="LRU" flushInterval="7200000" readOnly="true" size="1100"/>
+  <resultMap id="BaseResultMap" type="com.jinze.entity.Subbasin">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="subid" jdbcType="INTEGER" property="subid" />
+    <result column="stateid" jdbcType="INTEGER" property="stateid" />
+    <result column="dt" jdbcType="TIMESTAMP" property="dt" />
+    <result column="RO" jdbcType="DECIMAL" property="ro" />
+    <result column="NH4" jdbcType="DECIMAL" property="nh4" />
+    <result column="TN" jdbcType="DECIMAL" property="tn" />
+    <result column="TP" jdbcType="DECIMAL" property="tp" />
+    <result column="COD" jdbcType="DECIMAL" property="cod" />
+    <result column="TSS" jdbcType="DECIMAL" property="tss" />
+  </resultMap>
+  
+  <select id="selectTimeSeries" statementType="STATEMENT" resultType="Map" >
+    select  dt , ${pollutant} from subbasin
+    <where>
+      <if test="subid!=null and subid != ''">
+        and subid = ${subid}
+      </if>
+      <if test="startTime!='' and startTime != null and endTime != '' and endTime != null">
+        and dt between ${startTime} and ${endTime}
+      </if>
+      <if test="stateid!= null">
+        and stateid = ${stateid}
+      </if>
+    </where>
+  </select>
+
+
+  <!--测试-->
+  <!--<select id="selectAnimationSeries" statementType="STATEMENT" resultType="Map">
+    select  subid , dt , ${pollutant} from subbasin
+    <where>
+      <if test="startTime!='' and startTime != null and endTime != '' and endTime != null">
+        and dt between ${startTime} and ${endTime}
+      </if>
+    </where>
+    order by dt
+  </select>-->
+
+  <select id="selectAnimationSeries" statementType="STATEMENT" resultType="Map" useCache="true">
+    select  subid , ${pollutant} from subbasin
+    <where>
+      <if test="Time!='' and Time != null">
+        and dt = ${Time}
+      </if>
+      <if test="stateid!= null">
+        and stateid = ${stateid}
+      </if>
+    </where>
+  </select>
+
+
+
+  <select id="selectMaxAndMinTime" resultType="Map" parameterType="Map">
+    select min(dt) as MinDt , max(dt) as MaxDt from subbasin where stateid=#{stateid}
+  </select>
+</mapper>

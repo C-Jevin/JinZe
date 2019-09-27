@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.jinze.entity.MonomerBmp;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-@Repository
-@Mapper
+//@Repository
+//@Mapper
+//@CacheNamespace
 public interface MonomerBmpDao {
 
 	/**

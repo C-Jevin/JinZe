@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinze.dao.LandtypesMapper">
+  <resultMap id="BaseResultMap" type="com.jinze.entity.Landtypes">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="subid" jdbcType="INTEGER" property="subid" />
+    <result column="gongyecc" jdbcType="REAL" property="gongyecc" />
+    <result column="juzhu" jdbcType="REAL" property="juzhu" />
+    <result column="ggjzszgc" jdbcType="REAL" property="ggjzszgc" />
+    <result column="jiaotong" jdbcType="REAL" property="jiaotong" />
+    <result column="shuichanyz" jdbcType="REAL" property="shuichanyz" />
+    <result column="heliuhuposk" jdbcType="REAL" property="heliuhuposk" />
+    <result column="zaijiandaijian" jdbcType="REAL" property="zaijiandaijian" />
+    <result column="lindilvdi" jdbcType="REAL" property="lindilvdi" />
+    <result column="gengdi" jdbcType="REAL" property="gengdi" />
+    <result column="totalland" jdbcType="REAL" property="totalland" />
+  </resultMap>
+  
+  <select id="selectUsedLandPercentage" statementType="STATEMENT" resultType="Map">
+    select gongyecc,juzhu,ggjzszgc,jiaotong,shuichanyz,heliuhuposk,zaijiandaijian,lindilvdi,gengdi,totalland from landtypes
+    <where>
+      <if test="subid!=NULL">
+        and subid = ${subid}
+      </if>
+      <if test="stateid!=NULL">
+        and stateid = ${stateid}
+      </if>
+    </where>
+  </select>
+</mapper>

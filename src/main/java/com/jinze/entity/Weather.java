@@ -12,6 +12,7 @@ import java.math.BigDecimal;
  */
 
 public class Weather implements Serializable{
+	private static final long serialVersionUID = 2139044733063224162L;
 	private String ID;//序号
 	private String siteId;//站点ID
 	private String siteName;//站点名称

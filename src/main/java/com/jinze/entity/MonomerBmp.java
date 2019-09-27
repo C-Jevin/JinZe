@@ -3,6 +3,7 @@ package com.jinze.entity;
 import java.io.Serializable;
 
 public class MonomerBmp implements Serializable{
+	private static final long serialVersionUID = 3737221609346092995L;
 	private String ID;//序号
 	private Integer pgType;//评估类别 1-效益评估，2-参数优化评估
 	private String type;//类型

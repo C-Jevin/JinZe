@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.jinze.entity.Weather;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-@Repository
-@Mapper
+//@Repository
+//@Mapper
+//@CacheNamespace
 public interface WeatherDao {
 	/**
 	 * 根据站点名称查询所有符合条件的数据

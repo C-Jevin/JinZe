@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinze.dao.NodeoutqualMapper">
+  <cache eviction="LRU" flushInterval="7200000" readOnly="true" size="1100"/>
+  <resultMap id="BaseResultMap" type="com.jinze.entity.Nodeoutqual">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="stateid" jdbcType="INTEGER" property="stateid" />
+    <result column="dt" jdbcType="TIMESTAMP" property="dt" />
+    <result column="node" jdbcType="VARCHAR" property="node" />
+    <result column="pollutant" jdbcType="VARCHAR" property="pollutant" />
+    <result column="qual" jdbcType="DECIMAL" property="qual" />
+  </resultMap>
+
+  <select id="selectTimeSeries" parameterType="Map" resultType="Map" >
+    select  dt , qual from nodeoutqual
+    <where>
+      <if test="startTime!='' and startTime != null and endTime != '' and endTime != null">
+        and dt between #{startTime} and #{endTime}
+      </if>
+      <if test="nodeId != null and nodeId != ''">
+        and node = #{nodeId}
+      </if>
+      <if test="pollutant != '' and pollutant != null">
+        and pollutant = #{pollutant}
+      </if>
+      <if test="stateid != null">
+        and stateid = #{stateid}
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectAnimationSeries" parameterType="Map" resultType="Map" useCache="true">
+    select  node , qual from nodeoutqual
+    <where>
+      <if test="Time!='' and Time != null">
+        and dt = #{Time}
+      </if>
+      <if test="pollutant != '' and pollutant != null">
+        and pollutant = #{pollutant}
+      </if>
+      <if test="stateid!= null">
+        and stateid = #{stateid}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectMaxAndMinTime" resultType="Map" parameterType="Map">
+    select min(dt) as MinDt , max(dt) as MaxDt from nodeoutqual where stateid=#{stateid}
+  </select>
+</mapper>

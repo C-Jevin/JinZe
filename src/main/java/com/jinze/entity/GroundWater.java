@@ -7,6 +7,7 @@ import java.io.Serializable;
  *
  */
 public class GroundWater implements Serializable{
+	private static final long serialVersionUID = 3134144428999002966L;
 	private String ID;//序号
 	private String siteId;//站点ID
 	private String siteName;//站点名称

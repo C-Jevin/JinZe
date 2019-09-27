@@ -8,6 +8,8 @@ import com.jinze.core.ResultGenerator;
 import com.jinze.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,7 @@ import com.jinze.entity.YanJiuQuWQ;
 @RestController
 @RequestMapping("/JinZeApi/monitorDate")
 public class MonitoringDataController {
+	private static Logger Log = LoggerFactory.getLogger(MonitoringDataController.class);
 	@Autowired
 	private DuanmianWqService duanmianWqService;
 	@Autowired
@@ -77,6 +80,7 @@ public class MonitoringDataController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.error(e.getMessage());
 			return ResultGenerator.genFailResult(e.getMessage());
 		}
 		return  null;

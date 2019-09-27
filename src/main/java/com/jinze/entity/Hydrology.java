@@ -7,6 +7,7 @@ import java.io.Serializable;
  *
  */
 public class Hydrology implements Serializable{
+	private static final long serialVersionUID = -3603943305364407089L;
 	private String ID;//序号
 	private String siteId;//站点ID
 	private String siteName;//站点名称

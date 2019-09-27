@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinze.dao.SubbasinMapper">
+  <resultMap id="BaseResultMap" type="com.jinze.entity.Subbasin">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="subid" jdbcType="INTEGER" property="subid" />
+    <result column="stateid" jdbcType="INTEGER" property="stateid" />
+    <result column="dt" jdbcType="TIMESTAMP" property="dt" />
+    <result column="RO" jdbcType="DECIMAL" property="ro" />
+    <result column="NH4" jdbcType="DECIMAL" property="nh4" />
+    <result column="TN" jdbcType="DECIMAL" property="tn" />
+    <result column="TP" jdbcType="DECIMAL" property="tp" />
+    <result column="COD" jdbcType="DECIMAL" property="cod" />
+    <result column="TSS" jdbcType="DECIMAL" property="tss" />
+  </resultMap>
+</mapper>

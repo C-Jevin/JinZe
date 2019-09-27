@@ -7,6 +7,8 @@ import com.jinze.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/JinZeApi/duanMian")
 public class DuanmianWqController {
+    private static Logger Log = LoggerFactory.getLogger(DuanmianWqController.class);
     @Autowired
     private DuanmianWqService duanmianWqService;
 
@@ -29,7 +32,7 @@ public class DuanmianWqController {
      * 查询表记录总数
      * @param response
      */
-    @ApiOperation(
+   /* @ApiOperation(
             value = "查询表记录总数",
             notes = "根据条件查询表记录总数",
             produces="application/json",
@@ -44,16 +47,17 @@ public class DuanmianWqController {
             res.put("Count",count);
             return ResultGenerator.genSuccessResult(res);
         }catch (Exception e){
+            Log.error(e.getMessage());
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     /**
      * 根据ID更新duanmian记录
      * @param duanMianWq
      */
-    @ApiOperation(
+    /*@ApiOperation(
             value = "更新表记录",
             notes = "根据条件更新表记录",
             produces="application/json",
@@ -66,10 +70,10 @@ public class DuanmianWqController {
         return ResultGenerator.genSuccessResult();
     }
 
-    /**
+    *//**
      * 新增一条记录
      * @param duanMianWq
-     */
+     *//*
     @ApiOperation(
             value = "新增一条表记录",
             notes = "添加一条表记录",
@@ -87,10 +91,10 @@ public class DuanmianWqController {
         return ResultGenerator.genSuccessResult();
     }
 
-    /**
+    *//**
      * 根据ID删除记录
      * @param id
-     */
+     *//*
     @ApiOperation(
             value = "删除一条表记录",
             notes = "根据id删除",
@@ -104,10 +108,10 @@ public class DuanmianWqController {
         return ResultGenerator.genSuccessResult();
     }
 
-    /**
+    *//**
      * 批量删除
      * @param list
-     */
+     *//*
     @ApiOperation(
             value = "批量删除表记录",
             notes = "根据ids删除",
@@ -122,7 +126,7 @@ public class DuanmianWqController {
         duanmianWqService.deleteByList(list);
         return ResultGenerator.genSuccessResult();
     }
-
+*/
     /*@RequestMapping(value = "averData-one" ,method = RequestMethod.GET)
     public void searchDuanMianAverage(@RequestParam(value = "siteId",required = true,defaultValue = "SZDMP0001") String siteId,
                                       @RequestParam(value = "Dt",required = true,defaultValue = "")String Dt,

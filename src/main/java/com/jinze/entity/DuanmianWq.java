@@ -8,6 +8,7 @@ import java.io.Serializable;
  * @author JackVan
  */
 public class DuanMianWq implements Serializable{
+	private static final long serialVersionUID = -1714622784165476537L;
 	private String ID;//编号
 	private String siteId;//站点ID
 	private String siteName;//站点名称

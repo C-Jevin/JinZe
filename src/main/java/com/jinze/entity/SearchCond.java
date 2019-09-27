@@ -2,10 +2,13 @@ package com.jinze.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+
 /**
  * 查询条件实体类
  */
-public class SearchCond {
+public class SearchCond implements Serializable {
+    private static final long serialVersionUID = 6416413140069308877L;
     @ApiModelProperty(value = "站点ID",example = "SZDMP0001")
     private String siteId;//站点ID
     //@ApiModelProperty(value = "表名",example = "tb_duanmianwq")
