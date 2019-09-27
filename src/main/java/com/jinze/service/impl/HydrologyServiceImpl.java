@@ -1,13 +1,10 @@
 package com.jinze.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.jinze.entity.DuanMianWq;
 import com.jinze.util.AverageDateUtil;
-import com.jinze.util.DateUtil;
 import com.jinze.util.EmptySentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
